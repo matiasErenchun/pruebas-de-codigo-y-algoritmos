@@ -29,4 +29,9 @@ public class Nodo
     {
         return coordenadaY;
     }
+
+    public void printt()
+    {
+        System.out.println(" hola soy el nodo: "+this.id+" coordenad X:"+this.getCoordenadaX()+" coordenada Y:"+coordenadaY);
+    }
 }

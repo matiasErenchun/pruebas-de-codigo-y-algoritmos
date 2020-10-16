@@ -4,18 +4,20 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Random;
 import java.util.StringTokenizer;
 
 public class Simulador {
     private ArrayList<Nodo> nodos;
     private Arista[][] Aristas;
 
-    public Simulador()
+    public Simulador(String url)
     {
         this.nodos= new ArrayList<>();
         this.Aristas= new Arista[280][280];
-        leerArchivo("D:\\repo-git-local-2\\pruebas-de-codigo-y-algoritmos\\Hormigas\\src\\com\\company\\a280.txt");
-        this.mostrarMatriz();
+        leerArchivo(url);
+        //this.mostrarMatriz();
+        this.nodos.get(0).printt();
     }
 
     public boolean leerArchivo(String file) {
@@ -92,6 +94,60 @@ public class Simulador {
             }
             System.out.println("}");
         }
+    }
+
+
+    public void recorrer(Hormiga nuevaHormiga,Nodo nodo)
+    {
+        Arista aristasRecorrer;
+        while (nuevaHormiga.visitadosTotales()<280)
+        {
+            nuevaHormiga.AddIdNodoToCamino(nodo.getId());
+            nuevaHormiga.MarckNodoWithVisited(nodo.getId());
+            aristasRecorrer=elegirArista(nuevaHormiga, nodo);
+            nuevaHormiga.addPeso(aristasRecorrer.getPeso());
+            aristasRecorrer.incrementarCargaHormonal();
+            nodo=this.nodos.get(aristasRecorrer.getIdNodoB());
+        }
+
+        aristasRecorrer=this.Aristas[0][nodo.getId()];
+        nuevaHormiga.AddIdNodoToCamino(0);
+        nuevaHormiga.addPeso(aristasRecorrer.getPeso());
+        aristasRecorrer.incrementarCargaHormonal();
+
+    }
+
+
+    public Arista elegirArista(Hormiga hormiga,Nodo nodoACtual)
+    {
+        int idNodoActual=nodoACtual.getId();
+        int maxActual=0;
+        int idNextNodo=0;
+        Random miRandom = new Random(System.currentTimeMillis());
+        //primero revisamos todas las aristas disponbles
+        for (int i = 0; i < this.Aristas.length; i++)
+        {
+            if(this.Aristas[idNodoActual][i]!=null)//validamos que exista la aristas ya que las donde i==j no existen
+            {
+                if(!hormiga.visiteYaEsteNodo(i))//validamos cuales son los nodos que ya visitamos
+                {
+                    int valor = miRandom.nextInt(1000);//para lso nodos no visitados se genera un valor random
+                    if (this.Aristas[idNodoActual][i].getCargaHormonal() > 0)//si tiene carga hormonal se multiplica el valor por la carga
+                    {
+                        valor *= this.Aristas[idNodoActual][i].getCargaHormonal();
+                    }
+
+                    if (valor > maxActual)//se busca  el valor mas alto de todos asi ese sera el siguente nodo
+                    {
+                        maxActual = valor;
+                        idNextNodo = this.Aristas[idNodoActual][i].getIdNodoB();
+                    }
+                }
+            }
+            miRandom.setSeed(System.currentTimeMillis());
+        }
+
+        return this.Aristas[idNodoActual][idNextNodo];
     }
 }
 

@@ -39,4 +39,9 @@ public class Arista
     {
         System.out.print(this.peso +":"+this.idNodoA+"-"+this.idNodoB+" ");
     }
+
+    public int incrementarCargaHormonal()
+    {
+        return this.getCargaHormonal();
+    }
 }

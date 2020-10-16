@@ -5,6 +5,7 @@ public class Main
 
     public static void main(String[] args)
     {
-        Simulador s= new Simulador();
+        String url="D:\\repo-git-local-2\\pruebas-de-codigo-y-algoritmos\\Hormigas\\src\\com\\company\\a280.txt";
+        Simulador s= new Simulador(url);
     }
 }
