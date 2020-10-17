@@ -5,10 +5,12 @@ public class Arista
     private int idNodoA;
     private int idNodoB;
     private Double peso;
-    private int cargaHormonal;
+    private Double cargaHormonal;
+    private Double factorAjusteCargaHormonal;
 
-    public Arista(int idNodoA,int idNodoB,Double peso, int cargaHormonal)
+    public Arista(int idNodoA,int idNodoB,Double peso, Double cargaHormonal,Double factorAjusteCargaHormonal)
     {
+        this.factorAjusteCargaHormonal=factorAjusteCargaHormonal;
         this.idNodoA=idNodoA;
         this.idNodoB=idNodoB;
         this.peso = peso;
@@ -20,7 +22,7 @@ public class Arista
         return peso;
     }
 
-    public int getCargaHormonal()
+    public Double getCargaHormonal()
     {
         return cargaHormonal;
     }
@@ -37,11 +39,21 @@ public class Arista
 
     public void printt()
     {
-        System.out.print(this.peso +":"+this.idNodoA+"-"+this.idNodoB+" ");
+        System.out.println(this.idNodoA+"-"+this.idNodoB+" "+"suma un peso de:"+this.peso);
     }
 
-    public int incrementarCargaHormonal()
+    public Double incrementarCargaHormonal()
     {
-        return this.getCargaHormonal();
+        return this.getCargaHormonal()+this.factorAjusteCargaHormonal;
+    }
+
+    public void decrementarhormonas()
+    {
+        this.cargaHormonal-=0.1;
+    }
+
+    public void setCargaHormonal(Double cargaHormonal)
+    {
+        this.cargaHormonal = cargaHormonal;
     }
 }

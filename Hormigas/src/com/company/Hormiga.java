@@ -7,14 +7,14 @@ public class Hormiga
 {
     private int id;
     private HashMap<Integer,Boolean> visitados;
-    private Double peso;
+    private Double pesoCamino;
     private ArrayList<Integer> camino;
 
     public Hormiga(int id)
     {
         this.id = id;
         this.visitados = new HashMap<>();
-        this.peso = new Double(0);
+        this.pesoCamino = new Double(0);
         this.camino = new ArrayList<>();
     }
 
@@ -25,7 +25,16 @@ public class Hormiga
 
     public boolean MarckNodoWithVisited(Integer idNodo)
     {
-        return this.visitados.putIfAbsent(idNodo,true);
+        if(this.visitados.containsKey(idNodo))
+        {
+            return false;
+        }
+        else
+        {
+            this.visitados.putIfAbsent(idNodo,true);
+            return true;
+        }
+
     }
 
     public boolean visiteYaEsteNodo(Integer idNodo)
@@ -35,7 +44,7 @@ public class Hormiga
 
     public Double addPeso(Double pesoArista)
     {
-       return this.peso+=pesoArista;
+       return this.pesoCamino+=pesoArista;
     }
 
     public int visitadosTotales()
@@ -43,4 +52,13 @@ public class Hormiga
         return this.visitados.size();
     }
 
+    public int getId()
+    {
+        return this.id;
+    }
+
+    public Double getPeso()
+    {
+        return this.pesoCamino;
+    }
 }
