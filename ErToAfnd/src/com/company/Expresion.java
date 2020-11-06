@@ -7,6 +7,7 @@ public class Expresion
 {
     private ArrayDeque<String>tokens;
     private HashMap<String,Integer>priorityMap;
+    private Consumidor miConsumidor;
 
     public Expresion( String expresion)
     {
@@ -14,8 +15,8 @@ public class Expresion
         this.cargarPriorityMap();
         this.tokens = new ArrayDeque<>();
         this.procesarString(expresion);
-        this.infijoToPrefijo(this.tokens);
-        //falta guardar la salida 
+        this.tokens=this.infijoToPrefijo(this.tokens);
+        this.miConsumidor = new Consumidor(this.tokens);
     }
 
     public void procesarString(String string)
@@ -24,7 +25,7 @@ public class Expresion
         StringBuilder token = new StringBuilder("");
         for (char c: caracteres)
         {
-            if(c=='|'|| c=='.' || c=='(' || c==')' || c=='~'|| c=='*')
+            if(c=='|'|| c=='.' || c=='(' || c==')' || c=='~'|| c=='*' || c=='_')
             {
                 if(token.length()==0)
                 {
@@ -65,23 +66,20 @@ public class Expresion
         while (!misTokens.isEmpty())
         {
             String elemento = misTokens.pollFirst();
-            if(elemento.matches("^[a-zA-Z0-9]+$"))
+            if(elemento.matches("^[a-zA-Z0-9_~]+$"))
             {
                 salida.add(elemento);
             }
             else if(elemento.equalsIgnoreCase("("))
             {
                 auxOperadores.addFirst(elemento);
-                System.out.println("hola2");
             }
             else if(elemento.equalsIgnoreCase(")"))
             {
-                System.out.println("num aux"+auxOperadores.size());
                 while(!auxOperadores.isEmpty() &&  !auxOperadores.peekFirst().equalsIgnoreCase("("))
                 {
 
                     String operador = auxOperadores.pollFirst();
-                    System.out.println("operador"+operador);
                     salida.add(operador);
                 }
                 if(!auxOperadores.isEmpty())
@@ -110,14 +108,9 @@ public class Expresion
 
         while (!auxOperadores.isEmpty())
         {
-            System.out.println("salida :D");
             salida.add(auxOperadores.pollFirst());
         }
 
-        for (String s:salida)
-        {
-            System.out.print(s+"-");
-        }
         return salida;
     }
 
@@ -140,6 +133,8 @@ public class Expresion
         this.priorityMap.put("|",1);
 
     }
+
+
 
 
 }

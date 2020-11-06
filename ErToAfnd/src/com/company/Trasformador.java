@@ -5,6 +5,7 @@ import java.util.ArrayDeque;
 public class Trasformador
 {
     private ArrayDeque<Expresion>expresiones;
+    private Consumidor miConsumidor;
 
     public Trasformador(String file)
     {
@@ -13,7 +14,6 @@ public class Trasformador
         ArrayDeque<String>contenedor = lector.leerCadenas(file);
         this.mostrar(contenedor);
         ArrayDeque<String>nuevoContenedor =this.procesarGuion(contenedor);
-        mostrar(nuevoContenedor);
 
         for (String string:nuevoContenedor)
         {
@@ -54,19 +54,6 @@ public class Trasformador
         }
 
         return nuevoContenedor;
-    }
-
-
-    public boolean cargarExpresiones()
-    {
-        boolean cargaCompleta=false;
-
-        return cargaCompleta;
-    }
-
-    public void trasformar()
-    {
-
     }
 
     public void mostrar (ArrayDeque<String> arreglo)
