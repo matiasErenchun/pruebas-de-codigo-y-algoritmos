@@ -105,10 +105,11 @@ public class Er
             }
         }
 
+
+        alfabetoFinal.remove("_");
         String [] alfabeto = alfabetoFinal.toArray(new String[0]);
-        for (int i = 0; i < alfabeto.length; i++) {
-            if (!alfabeto[i].equalsIgnoreCase("_"))
-            {
+        for (int i = 0; i < alfabeto.length; i++)
+        {
                 if (i==alfabeto.length-1)
                 {
                     System.out.print(alfabeto[i]);
@@ -117,7 +118,6 @@ public class Er
                 {
                     System.out.print(alfabeto[i]+",");
                 }
-            }
         }
         System.out.println("}");
     }

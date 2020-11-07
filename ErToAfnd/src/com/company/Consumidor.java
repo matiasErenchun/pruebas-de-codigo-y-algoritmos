@@ -17,8 +17,10 @@ public class Consumidor
     {
         try {
             boolean errores =false;
-            Er eRActual = new Er(new Nodo("-1"), new Nodo("-1"));
-            Er eRAnterior = new Er(new Nodo("-1"), new Nodo("-1"));
+            Er eRaux=new Er(new Nodo("-1"), new Nodo("-1"));
+            Er eRAcumulada = eRaux;
+            Er eRActual = eRaux;
+            Er eRAnterior = eRaux;
             while (!this.tokensAConsumir.isEmpty()&& !errores )
             {
                 String tokenActual = this.tokensAConsumir.pollFirst();
@@ -28,7 +30,7 @@ public class Consumidor
                 }
                 else if(tokenActual.equalsIgnoreCase("*"))
                 {
-                    if(eRActual.getNodoInicial().getId().equalsIgnoreCase("-1"))
+                    if(eRActual.getNodoInicial().getId().equalsIgnoreCase("-1") && eRAcumulada.getNodoInicial().getId().equalsIgnoreCase("-1"))
                     {
                         errores = true;
                         System.out.println("error en la expresion inicia con *");
@@ -46,14 +48,23 @@ public class Consumidor
                         errores = true;
                         System.out.println("error en la expresion inicia con .");
                     }
-                    else if(eRAnterior.getNodoInicial().getId().equalsIgnoreCase("-1"))
+                    else if(eRAnterior.getNodoInicial().getId().equalsIgnoreCase("-1") && eRAcumulada.getNodoInicial().getId().equalsIgnoreCase("-1") )
                     {
                         errores = true;
                         System.out.println("error en la expresion falta un operando para el .");
                     }
                     else
                     {
-                        eRActual = this.concatenarErs(eRAnterior,eRActual);
+                        if(eRAnterior.getNodoInicial().getId().equalsIgnoreCase("-1"))
+                        {
+                            eRActual=this.concatenarErs(eRAcumulada,eRActual);
+                        }
+                        else
+                        {
+                            eRActual = this.concatenarErs(eRAnterior,eRActual);
+                            eRAnterior=eRaux;
+                        }
+
                     }
                 }
                 else if(tokenActual.equalsIgnoreCase("|"))
@@ -70,13 +81,31 @@ public class Consumidor
                     }
                     else
                     {
-                        eRActual = this.construirAOrB(eRAnterior,eRActual);
+                        if(eRAnterior.getNodoInicial().getId().equalsIgnoreCase("-1"))
+                        {
+                            eRActual = this.construirAOrB(eRAcumulada,eRActual);
+                        }
+                        else
+                        {
+                            eRActual=this.construirAOrB(eRAnterior,eRActual);
+                            eRAnterior=eRaux;
+                        }
+
                     }
                 }
                 else
                 {
-                    eRAnterior=eRActual;
-                    eRActual=this.construirErSimple(tokenActual);
+                    if(!eRActual.getNodoInicial().getId().equalsIgnoreCase("-1")&& !eRAnterior.getNodoInicial().getId().equalsIgnoreCase("-1"))
+                    {
+                        eRAcumulada=eRAnterior;
+                        eRAnterior=eRActual;
+                        eRActual=this.construirErSimple(tokenActual);
+                    }
+                    else
+                    {
+                        eRAnterior=eRActual;
+                        eRActual=this.construirErSimple(tokenActual);
+                    }
                 }
             }
             eRActual.mostrarEr();
@@ -118,7 +147,23 @@ public class Consumidor
     {
         Transicion puenteFinInicio = new Transicion(erActula.getNodoFinal().getId(),erActula.getNodoInicial(),"_");
         erActula.getNodoFinal().addTrancision(puenteFinInicio);
-        return erActula;
+
+        Nodo nodoInicial = new Nodo(this.getNuevoIdNodo());
+        Nodo nodoFinal = new Nodo(this.getNuevoIdNodo());
+
+        Transicion  transicionInicialToActual = new Transicion(nodoInicial.getId(),erActula.getNodoInicial(),"_");
+        Transicion transicioninicialToFinal = new Transicion(nodoInicial.getId(),nodoFinal,"_");
+        nodoInicial.addTrancision(transicionInicialToActual);
+        nodoInicial.addTrancision(transicioninicialToFinal);
+
+        Transicion trancicionActualToFinal = new Transicion(erActula.getNodoFinal().getId(),nodoFinal,"_");
+        erActula.getNodoFinal().addTrancision(trancicionActualToFinal);
+
+        Er nuevaEr = new Er(nodoInicial,nodoFinal);
+        nuevaEr.addNodo(nodoInicial);
+        nuevaEr.cargarNodos(erActula.getNodos());
+        nuevaEr.addNodo(nodoFinal);
+        return nuevaEr;
     }
 
     public Er construirAOrB(Er a,Er b)

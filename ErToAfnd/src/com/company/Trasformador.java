@@ -5,7 +5,6 @@ import java.util.ArrayDeque;
 public class Trasformador
 {
     private ArrayDeque<Expresion>expresiones;
-    private Consumidor miConsumidor;
 
     public Trasformador(String file)
     {
