@@ -1,7 +1,10 @@
 package com.company;
 
-import javax.swing.*;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.stream.Stream;
 
 public class Er
 {
@@ -62,11 +65,6 @@ public class Er
         return i;
     }
 
-    public void mostrarNodos()
-    {
-
-    }
-
     public void mostrarEr()
     {
         System.out.println("AFND M:");
@@ -83,6 +81,8 @@ public class Er
             }
         }
         System.out.println("}");
+        System.out.print("Sigma={");
+        calcularSigma();
         System.out.println("Delta:");
         for (Nodo nodo: this.nodos)
         {
@@ -90,5 +90,35 @@ public class Er
         }
         System.out.println("S="+this.nodoInicial.getId());
         System.out.println("F={"+this.nodoFinal.getId()+"}");
+    }
+
+    public void calcularSigma()
+    {
+        HashSet<String>alfabetoFinal= new HashSet<>();
+        for (Nodo nodo:this.nodos)
+        {
+
+            Set<String> setNodo= nodo.alfabetoNodo();
+            for (String s:setNodo)
+            {
+                alfabetoFinal.add(s);
+            }
+        }
+
+        String [] alfabeto = alfabetoFinal.toArray(new String[0]);
+        for (int i = 0; i < alfabeto.length; i++) {
+            if (!alfabeto[i].equalsIgnoreCase("_"))
+            {
+                if (i==alfabeto.length-1)
+                {
+                    System.out.print(alfabeto[i]);
+                }
+                else
+                {
+                    System.out.print(alfabeto[i]+",");
+                }
+            }
+        }
+        System.out.println("}");
     }
 }

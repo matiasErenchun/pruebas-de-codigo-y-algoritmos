@@ -12,7 +12,6 @@ public class Trasformador
         this.expresiones = new ArrayDeque<>();
         Lector lector= new Lector();
         ArrayDeque<String>contenedor = lector.leerCadenas(file);
-        this.mostrar(contenedor);
         ArrayDeque<String>nuevoContenedor =this.procesarGuion(contenedor);
 
         for (String string:nuevoContenedor)
@@ -21,10 +20,6 @@ public class Trasformador
             this.expresiones.add(nuevaExpesion);
         }
 
-        for (Expresion e:this.expresiones)
-        {
-            e.mostrar();
-        }
 
     }
 

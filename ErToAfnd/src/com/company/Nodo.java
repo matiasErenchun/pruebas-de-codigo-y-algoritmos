@@ -1,6 +1,8 @@
 package com.company;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Set;
 
 public class Nodo
 {
@@ -31,6 +33,16 @@ public class Nodo
         }
     }
 
+    public Set<String> alfabetoNodo()
+    {
+        HashMap<String,Boolean>alfabeto = new HashMap<>();
+        for (Transicion t: this.transiciones)
+        {
+            alfabeto.putIfAbsent(t.getCaracter(),true);
+        }
 
+        Set<String> alfabetoFinal = alfabeto.keySet();
+        return alfabetoFinal;
+    }
 
 }

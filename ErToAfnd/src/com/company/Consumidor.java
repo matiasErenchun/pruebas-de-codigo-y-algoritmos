@@ -24,12 +24,10 @@ public class Consumidor
                 String tokenActual = this.tokensAConsumir.pollFirst();
                 if(tokenActual.equalsIgnoreCase("~"))
                 {
-                    System.out.println("hola ~");
                     eRActual = this.expresionVacio();
                 }
                 else if(tokenActual.equalsIgnoreCase("*"))
                 {
-                    System.out.println("hola *");
                     if(eRActual.getNodoInicial().getId().equalsIgnoreCase("-1"))
                     {
                         errores = true;
@@ -43,7 +41,6 @@ public class Consumidor
                 }
                 else if(tokenActual.equalsIgnoreCase("."))
                 {
-                    System.out.println("hola .");
                     if(eRActual.getNodoInicial().getId().equalsIgnoreCase("-1"))
                     {
                         errores = true;
@@ -61,7 +58,6 @@ public class Consumidor
                 }
                 else if(tokenActual.equalsIgnoreCase("|"))
                 {
-                    System.out.println("hola |");
                     if(eRActual.getNodoInicial().getId().equalsIgnoreCase("-1"))
                     {
                         errores = true;
@@ -79,10 +75,8 @@ public class Consumidor
                 }
                 else
                 {
-                    System.out.println("hola :"+tokenActual);
                     eRAnterior=eRActual;
                     eRActual=this.construirErSimple(tokenActual);
-                    eRActual.mostrarEr();
                 }
             }
             eRActual.mostrarEr();
@@ -129,10 +123,6 @@ public class Consumidor
 
     public Er construirAOrB(Er a,Er b)
     {
-        System.out.println("mostramos a");
-        a.mostrarEr();
-        System.out.println("mostramos b");
-        b.mostrarEr();
         Nodo nodoInicial = new Nodo(this.getNuevoIdNodo());
         Nodo nodoFinal = new Nodo(this.getNuevoIdNodo());
 
