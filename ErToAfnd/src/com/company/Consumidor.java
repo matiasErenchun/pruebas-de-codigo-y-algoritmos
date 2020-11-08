@@ -1,6 +1,7 @@
 package com.company;
 
 import java.util.ArrayDeque;
+import java.util.ArrayList;
 
 public class Consumidor
 {
@@ -15,10 +16,10 @@ public class Consumidor
 
     public void consumir()
     {
+        ArrayDeque<Er>respuestas = new ArrayDeque<>();
         try {
             boolean errores =false;
             Er eRaux=new Er(new Nodo("-1"), new Nodo("-1"));
-            Er eRAcumulada = eRaux;
             Er eRActual = eRaux;
             Er eRAnterior = eRaux;
             while (!this.tokensAConsumir.isEmpty()&& !errores )
@@ -27,87 +28,54 @@ public class Consumidor
                 if(tokenActual.equalsIgnoreCase("~"))
                 {
                     eRActual = this.expresionVacio();
+                    respuestas.addFirst(eRActual);
                 }
                 else if(tokenActual.equalsIgnoreCase("*"))
                 {
-                    if(eRActual.getNodoInicial().getId().equalsIgnoreCase("-1") && eRAcumulada.getNodoInicial().getId().equalsIgnoreCase("-1"))
+                    if(respuestas.isEmpty())
                     {
                         errores = true;
                         System.out.println("error en la expresion inicia con *");
                     }
                     else
                     {
-                        eRActual = this.cierreEstrellaEr(eRActual);
+                        eRActual = this.cierreEstrellaEr(respuestas.pollFirst());
+                        respuestas.addFirst(eRActual);
                     }
 
                 }
                 else if(tokenActual.equalsIgnoreCase("."))
                 {
-                    if(eRActual.getNodoInicial().getId().equalsIgnoreCase("-1"))
-                    {
-                        errores = true;
-                        System.out.println("error en la expresion inicia con .");
-                    }
-                    else if(eRAnterior.getNodoInicial().getId().equalsIgnoreCase("-1") && eRAcumulada.getNodoInicial().getId().equalsIgnoreCase("-1") )
-                    {
-                        errores = true;
-                        System.out.println("error en la expresion falta un operando para el .");
-                    }
-                    else
-                    {
-                        if(eRAnterior.getNodoInicial().getId().equalsIgnoreCase("-1"))
-                        {
-                            eRActual=this.concatenarErs(eRAcumulada,eRActual);
-                        }
-                        else
-                        {
-                            eRActual = this.concatenarErs(eRAnterior,eRActual);
-                            eRAnterior=eRaux;
-                        }
-
-                    }
+                   if(respuestas.size()<2)
+                   {
+                       System.out.println("error en la expresion con . ");
+                   }
+                   else
+                   {
+                       eRActual=respuestas.pollFirst();
+                       eRAnterior=respuestas.pollFirst();
+                       respuestas.addFirst(this.concatenarErs(eRAnterior,eRActual));
+                   }
                 }
                 else if(tokenActual.equalsIgnoreCase("|"))
                 {
-                    if(eRActual.getNodoInicial().getId().equalsIgnoreCase("-1"))
+                    if (respuestas.size()<2)
                     {
-                        errores = true;
-                        System.out.println("error en la expresion inicia con |");
-                    }
-                    else if(eRAnterior.getNodoInicial().getId().equalsIgnoreCase("-1"))
-                    {
-                        errores = true;
-                        System.out.println("error en la expresion falta un operando para el |");
+                        System.out.println("error en la expresion con | ");
                     }
                     else
                     {
-                        if(eRAnterior.getNodoInicial().getId().equalsIgnoreCase("-1"))
-                        {
-                            eRActual = this.construirAOrB(eRAcumulada,eRActual);
-                        }
-                        else
-                        {
-                            eRActual=this.construirAOrB(eRAnterior,eRActual);
-                            eRAnterior=eRaux;
-                        }
-
+                        eRActual=respuestas.pollFirst();
+                        eRAnterior=respuestas.pollFirst();
+                        respuestas.addFirst(this.construirAOrB(eRAnterior,eRActual));
                     }
                 }
                 else
                 {
-                    if(!eRActual.getNodoInicial().getId().equalsIgnoreCase("-1")&& !eRAnterior.getNodoInicial().getId().equalsIgnoreCase("-1"))
-                    {
-                        eRAcumulada=eRAnterior;
-                        eRAnterior=eRActual;
-                        eRActual=this.construirErSimple(tokenActual);
-                    }
-                    else
-                    {
-                        eRAnterior=eRActual;
-                        eRActual=this.construirErSimple(tokenActual);
-                    }
+                   respuestas.addFirst(this.construirErSimple(tokenActual));
                 }
             }
+            eRActual=respuestas.pollFirst();
             eRActual.mostrarEr();
         }
         catch (Exception e)
