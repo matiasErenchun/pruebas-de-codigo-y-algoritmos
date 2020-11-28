@@ -1,0 +1,3 @@
+-el programa ya cuenta con casos de prueba en el inputFile, pero o cambia la ruta de la linea 11 o comneta la linea 11 y descomenta la linea 10 para poder recibir el nombre del archivo por linea de comandos al ejecutar el programa.
+-para modificar el ratio de aprendizaje debe cambiar la bariable ratioAprendizaje que   esta en la clase main Main linea 23, por dedefecto lo deje en 0.3
+-para modificar el valor del umbral debe modificar la variable umbral que se encuenta  en el Main class linea 24, por defecto se definico en 0.6
