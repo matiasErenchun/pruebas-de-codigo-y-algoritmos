@@ -15,7 +15,7 @@ public class Main
         for (ArrayList<String> tokensCadena: tokensCadenas) {
             for (String token: tokensCadena)
             {
-                System.out.print(token+" |--| ");
+                System.out.print(token+" |---| ");
             }
             System.out.print("\n");
         }

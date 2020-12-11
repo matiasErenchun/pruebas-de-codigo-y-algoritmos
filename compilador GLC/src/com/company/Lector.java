@@ -48,24 +48,21 @@ public class Lector
 
             for (String aux: tokenSinSpacios)
             {
-                boolean div=false;
                 for (int i = 0; i < aux.length(); i++)
                 {
                     Character auxChar = aux.charAt(i);
                     if(auxChar == '%' || auxChar == '/' || auxChar == '*' || auxChar == '+' || auxChar == '-' || auxChar=='=')
                     {
-                        contenedor.add(builder.toString());
+                        builder=this.validarAgregarBuilder(builder,contenedor);
                         contenedor.add(auxChar.toString());
-                        builder = new StringBuilder();
-                        div=true;
+
                     }
                     else if (auxChar == ';')
                     {
-                        contenedor.add(builder.toString());
+                        builder=this.validarAgregarBuilder(builder,contenedor);
                         cadenasFinales.add(contenedor);
                         contenedor= new ArrayList<>();
-                        builder = new StringBuilder();
-                        div=false;
+
                     }
                     else
                     {
@@ -73,11 +70,7 @@ public class Lector
                     }
 
                 }
-                if(div==true)
-                {
-                    contenedor.add(builder.toString());
-                }
-
+                    builder = this.validarAgregarBuilder(builder,contenedor);
             }
         }
 
@@ -94,6 +87,16 @@ public class Lector
             salida.add(tokens.nextToken());
         }
         return salida;
+    }
+
+    public StringBuilder validarAgregarBuilder(StringBuilder builder, ArrayList<String> contenedor)
+    {
+        if(builder.length()>0)
+        {
+            contenedor.add(builder.toString());
+            builder = new StringBuilder();
+        }
+        return builder;
     }
 
 }
