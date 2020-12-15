@@ -48,10 +48,28 @@ public class Lector
 
             for (String aux: tokenSinSpacios)
             {
+
                 for (int i = 0; i < aux.length(); i++)
                 {
                     Character auxChar = aux.charAt(i);
-                    if(auxChar == '%' || auxChar == '/' || auxChar == '*' || auxChar == '+' || auxChar == '-' || auxChar=='=')
+                    if(aux.length()>1 && (auxChar=='>'|| auxChar=='<' || auxChar=='=' || auxChar=='!') )
+                    {
+                        Character auxChar2 = aux.charAt(i+1);
+                        if(auxChar2 == '=')
+                        {
+                            builder=this.validarAgregarBuilder(builder,contenedor);
+                            builder.append(auxChar);
+                            builder.append(auxChar2);
+                            builder=this.validarAgregarBuilder(builder,contenedor);
+                            i++;
+                        }
+                        else
+                        {
+                            builder=this.validarAgregarBuilder(builder,contenedor);
+                            contenedor.add(auxChar.toString());
+                        }
+                    }
+                    else if(auxChar == '%' || auxChar == '/' || auxChar == '*' || auxChar == '+' || auxChar == '-' || auxChar=='(' || auxChar==')')
                     {
                         builder=this.validarAgregarBuilder(builder,contenedor);
                         contenedor.add(auxChar.toString());
@@ -63,6 +81,11 @@ public class Lector
                         cadenasFinales.add(contenedor);
                         contenedor= new ArrayList<>();
 
+                    }
+                    else if(auxChar == '$')
+                    {
+                        builder=this.validarAgregarBuilder(builder,contenedor);
+                        builder.append(auxChar.toString());
                     }
                     else
                     {
