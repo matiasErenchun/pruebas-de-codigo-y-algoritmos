@@ -1,4 +1,2 @@
-$a = $a + 2*$b;
-$a = 3;
-$aaaaaa+$b+$c
-*4;
+read $a;
+write $a+5*5;

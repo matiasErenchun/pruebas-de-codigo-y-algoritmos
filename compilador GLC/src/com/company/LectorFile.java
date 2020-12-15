@@ -7,9 +7,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.StringTokenizer;
 
-public class Lector
+public class LectorFile
 {
-    public Lector()
+    public LectorFile()
     {
 
     }
