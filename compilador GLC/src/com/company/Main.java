@@ -11,16 +11,16 @@ public class Main
 	    String file = "D:\\repo-git-local-2\\pruebas-de-codigo-y-algoritmos\\compilador GLC\\src\\com\\company\\texto.txt";
         LectorFile miLectorFile = new LectorFile();
         ArrayDeque<String> cadenas = miLectorFile.leerCadenas(file);
-        ArrayList<ArrayList<String>> tokensCadenas = miLectorFile.procesarCadenas(cadenas);
-        for (ArrayList<String> tokensCadena: tokensCadenas)
+        ArrayList<ArrayList<String>> lineas = miLectorFile.procesarCadenas(cadenas);
+        for (ArrayList<String> linea: lineas)
         {
-            for (String token: tokensCadena)
+            for (String token: linea)
             {
                 System.out.print(token+" |---| ");
             }
             System.out.print("\n");
         }
-        Interprete miInterprete = new Interprete(tokensCadenas);
+        Interprete miInterprete = new Interprete(lineas);
         miInterprete.interpretar();
 
         String tokenActual = "12524522";

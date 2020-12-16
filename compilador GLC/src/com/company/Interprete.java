@@ -11,11 +11,13 @@ public class Interprete
     private ArrayList<ArrayList<String>> lineas;
     private LectorInputs miLector;
     private HashMap<String,BigInteger> tablaVariables;
+    private Boolean continuar;
 
     public Interprete(ArrayList<ArrayList<String>>lineas)
     {
         this.priorityMap=new HashMap<>();
         this.miLector = new LectorInputs();
+        this.continuar=true;
         this.lineas = lineas;
         this.cargarPriorityMap();
         this.tablaVariables = new HashMap<>();
@@ -26,58 +28,74 @@ public class Interprete
         boolean salida=true;
         for (int i = 0; i < this.lineas.size(); i++)
         {
-            ArrayList<String > lineaActual =this.lineas.get(i);
-            int indexLineaActual =0;
-            String tokenActual=lineaActual.get(indexLineaActual);
-            if (tokenActual.equalsIgnoreCase("read"))
+            if(!this.continuar)
             {
-                String  nextToken = lineaActual.get(indexLineaActual+1);
-                if (nextToken.matches("^[$][a-zA-Z0-9]+$"))
-                {
-                    BigInteger valor = miLector.readBigInteger();
-                    this.tablaVariables.put(nextToken,valor);
-                    System.out.println(tokenActual+": "+nextToken+"="+this.tablaVariables.get(nextToken));
-                }
-                else
-                {
-                    i+=lineas.size();
-                    System.out.println("error al leer, el resultado no se asigna o guarda en una variable ");
-                }
-            }
-            else if(tokenActual.equalsIgnoreCase("write"))
-            {
-                if(indexLineaActual+1<lineaActual.size())
-                {
-                    ArrayDeque<String>contenedor = this.extraerExpresionNumerica(lineaActual,indexLineaActual+1);
-                    ArrayDeque<String>contenedor2=this.infijoToPrefijo(contenedor);
-                    for (String s: contenedor2)
-                    {
-                        System.out.print(s+" ");
-                    }
-                    System.out.println(" ");
-                    System.out.println(this.resolverExpresionNumerica(contenedor2));
-                }
-
-            }
-            else if(tokenActual.equalsIgnoreCase("if"))
-            {
-
-            }
-            else if(tokenActual.equalsIgnoreCase("while"))
-            {
-
+                i+=this.lineas.size();
+                salida=false;
             }
             else
             {
-                if(tokenActual.matches("^[$][a-zA-Z0-9]+$"))
+                ArrayList<String > lineaActual =this.lineas.get(i);
+                int indexLineaActual =0;
+                String tokenActual=lineaActual.get(indexLineaActual);
+                if (tokenActual.equalsIgnoreCase("read"))
+                {
+                    String  nextToken = lineaActual.get(indexLineaActual+1);
+                    if (nextToken.matches("^[$][a-zA-Z0-9]+$"))
+                    {
+                        BigInteger valor = miLector.readBigInteger();
+                        this.tablaVariables.put(nextToken,valor);
+                        System.out.println(tokenActual+": "+nextToken+"="+this.tablaVariables.get(nextToken));
+                    }
+                    else
+                    {
+                        i+=lineas.size();
+                        System.out.println("error al leer, el resultado no se asigna o guarda en una variable ");
+                    }
+                }
+                else if(tokenActual.equalsIgnoreCase("write"))
+                {
+                    if(indexLineaActual+1<lineaActual.size())
+                    {
+                        ArrayDeque<String>contenedor = this.extraerExpresionNumerica(lineaActual,indexLineaActual+1);
+                        ArrayDeque<String>contenedor2=this.infijoToPrefijo(contenedor);
+                        for (String s: contenedor2)
+                        {
+                            System.out.print(s+" ");
+                        }
+                        System.out.println(" ");
+                        System.out.println(this.resolverExpresionNumerica(contenedor2));
+                    }
+
+                }
+                else if(tokenActual.equalsIgnoreCase("if"))
+                {
+
+                }
+                else if(tokenActual.equalsIgnoreCase("while"))
                 {
 
                 }
                 else
                 {
+                    if(tokenActual.matches("^[$][a-zA-Z0-9]+$"))
+                    {
+                        String nexToken=lineaActual.get(indexLineaActual+1);
+                        if(nexToken.equalsIgnoreCase("="))
+                        {
+                            ArrayDeque<String>contenedor = this.extraerExpresionNumerica(lineaActual,indexLineaActual+2);
+                            ArrayDeque<String>contenedor2=this.infijoToPrefijo(contenedor);
+                            this.tablaVariables.put(tokenActual,this.resolverExpresionNumerica(contenedor2));
+                            //System.out.println(tokenActual+": "+this.tablaVariables.get(tokenActual));
+                        }
+                    }
+                    else
+                    {
 
+                    }
                 }
             }
+
         }
         return salida;
     }
@@ -93,21 +111,6 @@ public class Interprete
         return salida;
     }
 
-    /*
-    esto podria ser requerido o no
-    public boolean seguirBuscandoExpresion(String tokenActual)
-    {
-        if(tokenActual.equalsIgnoreCase("="))
-        {
-            return false;
-        }
-        else if()
-        {
-
-        }
-    }
-
-     */
 
     public BigInteger resolverExpresionNumerica(ArrayDeque<String>tokens)
     {
@@ -123,8 +126,18 @@ public class Interprete
             //si es una variable
             if(tokenActual.matches("^[$][a-zA-Z0-9]+$"))
             {
-                BigInteger aux=this.tablaVariables.get(tokenActual);
-                pilaResultados.addFirst(aux);
+                if(this.tablaVariables.containsKey(tokenActual))
+                {
+                    BigInteger aux=this.tablaVariables.get(tokenActual);
+                    pilaResultados.addFirst(aux);
+                }
+                else
+                {
+                    System.out.println("variable: "+tokenActual+" no esta definida");
+                    this.continuar=false;
+                    break;
+                }
+
             }
             //si es un numero
             else if(tokenActual.matches("^[-]{0,1}[0-9]+$"))
@@ -293,6 +306,11 @@ public class Interprete
         this.priorityMap.put("+",2);
         this.priorityMap.put("-",2);
 
+
+    }
+
+    private void mapearIfElse()
+    {
 
     }
 }
