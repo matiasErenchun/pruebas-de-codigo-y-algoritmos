@@ -12,16 +12,14 @@ public class Interprete
     private LectorInputs miLector;
     private HashMap<String,BigInteger> tablaVariables;
     private Boolean continuar;
-    private HashMap<Integer,Integer> mapaIfElse;
-    private HashMap<Integer,Integer> mapaElseEndIf;
+    private HashMap<Integer,Integer> mapaParOperaciones;
 
     public Interprete(ArrayList<ArrayList<String>>lineas)
     {
         this.priorityMap=new HashMap<>();
         this.miLector = new LectorInputs();
         this.continuar=true;
-        this.mapaIfElse = new HashMap<>();
-        this.mapaElseEndIf = new HashMap<>();
+        this.mapaParOperaciones = new HashMap<>();
         this.lineas = lineas;
         this.cargarPriorityMap();
         this.tablaVariables = new HashMap<>();
@@ -29,78 +27,106 @@ public class Interprete
 
     public boolean interpretar()
     {
+        this.mapearIfElse(0);
         boolean salida=true;
-        for (int i = 0; i < this.lineas.size(); i++)
+        int i=0;
+        while(this.continuar)
         {
-            if(!this.continuar)
+            ArrayList<String > lineaActual =this.lineas.get(i);
+            int indexLineaActual =0;
+            String tokenActual=lineaActual.get(indexLineaActual);
+            if (tokenActual.equalsIgnoreCase("read"))
             {
-                i+=this.lineas.size();
-                salida=false;
-            }
-            else
-            {
-                ArrayList<String > lineaActual =this.lineas.get(i);
-                int indexLineaActual =0;
-                String tokenActual=lineaActual.get(indexLineaActual);
-                if (tokenActual.equalsIgnoreCase("read"))
+                String  nextToken = lineaActual.get(indexLineaActual+1);
+                if (nextToken.matches("^[$][a-zA-Z0-9]+$"))
                 {
-                    String  nextToken = lineaActual.get(indexLineaActual+1);
-                    if (nextToken.matches("^[$][a-zA-Z0-9]+$"))
-                    {
-                        BigInteger valor = miLector.readBigInteger();
-                        this.tablaVariables.put(nextToken,valor);
-                        System.out.println(tokenActual+": "+nextToken+"="+this.tablaVariables.get(nextToken));
-                    }
-                    else
-                    {
-                        i+=lineas.size();
-                        System.out.println("error al leer, el resultado no se asigna o guarda en una variable ");
-                    }
-                }
-                else if(tokenActual.equalsIgnoreCase("write"))
-                {
-                    if(indexLineaActual+1<lineaActual.size())
-                    {
-                        ArrayDeque<String>contenedor = this.extraerExpresionNumerica(lineaActual,indexLineaActual+1);
-                        ArrayDeque<String>contenedor2=this.infijoToPrefijo(contenedor);
-                        for (String s: contenedor2)
-                        {
-                            System.out.print(s+" ");
-                        }
-                        System.out.println(" ");
-                        System.out.println(this.resolverExpresionNumerica(contenedor2));
-                    }
-
-                }
-                else if(tokenActual.equalsIgnoreCase("if"))
-                {
-
-                }
-                else if(tokenActual.equalsIgnoreCase("while"))
-                {
-
+                    BigInteger valor = miLector.readBigInteger();
+                    this.tablaVariables.put(nextToken,valor);
+                    System.out.println(tokenActual+": "+nextToken+"="+this.tablaVariables.get(nextToken));
                 }
                 else
                 {
-                    if(tokenActual.matches("^[$][a-zA-Z0-9]+$"))
+                    this.continuar=false;
+                    System.out.println("error al leer, el resultado no se asigna o guarda en una variable ");
+                }
+                i++;
+            }
+            else if(tokenActual.equalsIgnoreCase("write"))
+            {
+                if(indexLineaActual+1<lineaActual.size())
+                {
+                    ArrayDeque<String>contenedor = this.extraerExpresionNumerica(lineaActual,indexLineaActual+1);
+                    ArrayDeque<String>contenedor2=this.infijoToPrefijo(contenedor);
+                    for (String s: contenedor2)
                     {
-                        String nexToken=lineaActual.get(indexLineaActual+1);
-                        if(nexToken.equalsIgnoreCase("="))
-                        {
-                            ArrayDeque<String>contenedor = this.extraerExpresionNumerica(lineaActual,indexLineaActual+2);
-                            ArrayDeque<String>contenedor2=this.infijoToPrefijo(contenedor);
-                            this.tablaVariables.put(tokenActual,this.resolverExpresionNumerica(contenedor2));
-                            //System.out.println(tokenActual+": "+this.tablaVariables.get(tokenActual));
-                        }
+                        System.out.print(s+" ");
                     }
-                    else
-                    {
+                    System.out.println(" ");
+                    System.out.println(this.resolverExpresionNumerica(contenedor2));
+                }
+                i++;
 
-                    }
+            }
+            else if(tokenActual.equalsIgnoreCase("if"))
+            {
+                ArrayList<String> contenedor = this.extraerExpresionBooleana(lineaActual,1);
+                boolean respuesta = this.resolverExpresionBooleana(contenedor);
+                if(!respuesta)
+                {
+                        // pedimos que busque en nuestro mapa a que linea tenemos que saltar
+                    i= this.mapaParOperaciones.get(i)+1;
+                }
+                else
+                {
+                    //si la respuesta es true pasamo a ejecutar la siguente linea
+                    i++;
                 }
             }
+            else if (tokenActual.equalsIgnoreCase("else"))
+            {
+                i=this.mapaParOperaciones.get(i);
+            }
+            else if (tokenActual.equalsIgnoreCase("endif"))
+            {
+                i++;
+            }
+            else if(tokenActual.equalsIgnoreCase("while"))
+            {
+                    ArrayList<String> contenedor = this.extraerExpresionBooleana(lineaActual,1);
+                    System.out.println(contenedor.toString());
+                    i++;
 
+            }
+            else if (tokenActual.equalsIgnoreCase("wend"))
+            {
+                i++;
+            }
+            else
+            {
+                if(tokenActual.matches("^[$][a-zA-Z0-9]+$"))
+                {
+                    String nexToken=lineaActual.get(indexLineaActual+1);
+                    if(nexToken.equalsIgnoreCase("="))
+                    {
+                        ArrayDeque<String>contenedor = this.extraerExpresionNumerica(lineaActual,indexLineaActual+2);
+                        ArrayDeque<String>contenedor2=this.infijoToPrefijo(contenedor);
+                        this.tablaVariables.put(tokenActual,this.resolverExpresionNumerica(contenedor2));
+                        //System.out.println(tokenActual+": "+this.tablaVariables.get(tokenActual));
+                    }
+                    i++;
+                }
+                else
+                {
+
+                }
+            }
+            if(i>=this.lineas.size())
+            {
+                this.continuar=false;
+                salida=false;
+            }
         }
+
         return salida;
     }
 
@@ -115,6 +141,7 @@ public class Interprete
         return salida;
     }
 
+    //busca el par de parentessi correspondiente y copia un sub cadena con lo que esta etre estos
     public ArrayList<String> extraerExpresionBooleana(ArrayList<String> lineaActual, int index)
     {
         String tokenActual = lineaActual.get(index);
@@ -122,41 +149,49 @@ public class Interprete
         if(tokenActual.equalsIgnoreCase("("))
         {
             int i=index+1;
-            //flata validar que exista el i+1
-            tokenActual=lineaActual.get(i);
-            boolean segir = true;
-            while ( segir && !tokenActual.equalsIgnoreCase(")"))
+            if(i<lineaActual.size())
             {
+                tokenActual = lineaActual.get(i);
+                boolean segir = true;
+                while (segir && !tokenActual.equalsIgnoreCase(")")) {
 
-                if(!tokenActual.equalsIgnoreCase("("))
-                {
-
+                    if (!tokenActual.equalsIgnoreCase("("))
+                    {
+                        salida.add(tokenActual);
+                    }
+                    else
+                    {
+                        segir=false;
+                        System.out.println("error paretesis sobrantes");
+                        this.continuar=false;
+                    }
+                    i++;
+                    if (i >= lineaActual.size())
+                    {
+                        segir = false;
+                    }
+                    else
+                    {
+                        tokenActual = lineaActual.get(i);
+                    }
                 }
-                else
-                {
-                    salida.add(tokenActual);
-                }
-
-                i++;
-                if(i>=lineaActual.size())
-                {
-                    segir=false;
-                }
-                else
-                {
-                    tokenActual=lineaActual.get(i);
-                }
+            }
+            else
+            {
+                this.continuar=false;
+                System.out.println("error en lso parentesis");
             }
         }
         else
         {
-            //error falta parentesis
+            System.out.println("falta parentesis ( al inicio de la linea actual");
             this.continuar=false;
         }
 
         return salida;
     }
 
+    //aplica precedencia y resuelve una exprecion numerica
     public BigInteger resolverExpresionNumerica(ArrayDeque<String>tokens)
     {
         BigInteger salida= new BigInteger("0");
@@ -269,13 +304,14 @@ public class Interprete
         return salida;
     }
 
+    // resive una cadena con una expresion con resultado booleano y la resuelve
     public boolean resolverExpresionBooleana(ArrayList<String>expresion)
     {
         boolean salida = true;
         return salida;
     }
 
-
+    //aplica conbersion a notacion polaca inversa (el nombre esta mal pero bueno )
     public ArrayDeque<String> infijoToPrefijo(ArrayDeque<String> misTokens)
     {
         ArrayDeque<String>salida = new ArrayDeque<>();
@@ -354,27 +390,28 @@ public class Interprete
 
     }
 
+    //recorre todas las cadenas y revisa que los if,else, endif , whiles y wned esten correctamente pareados.
     public void mapearIfElse(int index)
     {
-        ArrayDeque<ContenedorElseIf>piladeElseIf = new ArrayDeque<>();
+        ArrayDeque<ContenedorParCaracteres>piladeElseIf = new ArrayDeque<>();
         for (int i = 0; i < this.lineas.size(); i++)
         {
             String tokenActual = this.lineas.get(i).get(0);
             if(tokenActual.equalsIgnoreCase("if"))
             {
-                ContenedorElseIf contenedor = new ContenedorElseIf(i,tokenActual);
+                ContenedorParCaracteres contenedor = new ContenedorParCaracteres(i,tokenActual);
                 piladeElseIf.addFirst(contenedor);
             }
             else if(tokenActual.equalsIgnoreCase("else"))
             {
                 if(piladeElseIf.size()>0)
                 {
-                    ContenedorElseIf contenedor = piladeElseIf.pollFirst();
+                    ContenedorParCaracteres contenedor = piladeElseIf.pollFirst();
                     if(contenedor.getTipo().equalsIgnoreCase("if"))
                     {
-                        ContenedorElseIf contenedor2=new ContenedorElseIf(i,"else");
+                        ContenedorParCaracteres contenedor2=new ContenedorParCaracteres(i,"else");
                         piladeElseIf.addFirst(contenedor2);
-                        this.mapaIfElse.putIfAbsent(contenedor.getNumeroLinea(), contenedor2.getNumeroLinea());
+                        this.mapaParOperaciones.putIfAbsent(contenedor.getNumeroLinea(), contenedor2.getNumeroLinea());
                     }
                     else
                     {
@@ -394,17 +431,10 @@ public class Interprete
             {
                 if (piladeElseIf.size()>0)
                 {
-                    ContenedorElseIf contenedor = piladeElseIf.pollFirst();
-                    if(!contenedor.getTipo().equalsIgnoreCase("endif"))
+                    ContenedorParCaracteres contenedor = piladeElseIf.pollFirst();
+                    if( contenedor.getTipo().equalsIgnoreCase("if")|| contenedor.getTipo().equalsIgnoreCase("else"))
                     {
-                        if (contenedor.getTipo().equalsIgnoreCase("if"))
-                        {
-                            this.mapaIfElse.putIfAbsent(contenedor.getNumeroLinea(),i);
-                        }
-                        else
-                        {
-                            this.mapaElseEndIf.putIfAbsent(contenedor.getNumeroLinea(),i);
-                        }
+                        this.mapaParOperaciones.putIfAbsent(contenedor.getNumeroLinea(),i);
                     }
                     else
                     {
@@ -420,9 +450,35 @@ public class Interprete
                     this.continuar=false;
                 }
             }
+            else if (tokenActual.equalsIgnoreCase("while"))
+            {
+                ContenedorParCaracteres contenedor = new ContenedorParCaracteres(i,tokenActual);
+                piladeElseIf.addFirst(contenedor);
+            }
+            else if (tokenActual.equalsIgnoreCase("wend"))
+            {
+                if(piladeElseIf.size()>0)
+                {
+                    ContenedorParCaracteres contenedor = piladeElseIf.pollFirst();
+                    if(contenedor.getTipo().equalsIgnoreCase("while"))
+                    {
+                        this.mapaParOperaciones.putIfAbsent(contenedor.getNumeroLinea(), i);
+                    }
+                    else
+                    {
+                        //error endif
+                        System.out.println("error en la linea:"+(i+1)+" el wend no cierra ningun while esta demas");
+                        this.continuar=false;
+                    }
+                }
+                else
+                {
+                    //error else
+                    System.out.println("error en la linea:"+(i+1)+" el wend no encuentra un  while que cerrar");
+                    this.continuar=false;
+                }
+            }
         }
-
-        System.out.println(this.mapaIfElse.toString());
-        System.out.println(this.mapaElseEndIf.toString());
+        System.out.println(this.mapaParOperaciones.toString());
     }
 }

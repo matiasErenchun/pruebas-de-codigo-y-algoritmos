@@ -1,9 +1,3 @@
-endif;
-if;
-    if;
-    else;
-        if;
-        endif;
-    endif;
+if(chao);
 endif;
 

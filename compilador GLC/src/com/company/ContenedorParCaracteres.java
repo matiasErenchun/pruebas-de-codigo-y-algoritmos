@@ -1,11 +1,11 @@
 package com.company;
 
-public class ContenedorElseIf
+public class ContenedorParCaracteres
 {
     private int numeroLinea;
     private String tipo;
 
-    public ContenedorElseIf(int linea, String tipo)
+    public ContenedorParCaracteres(int linea, String tipo)
     {
         this.numeroLinea= linea;
         this.tipo = tipo;
