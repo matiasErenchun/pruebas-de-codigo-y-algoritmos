@@ -21,7 +21,8 @@ public class Main
             System.out.print("\n");
         }
         Interprete miInterprete = new Interprete(lineas);
-        miInterprete.interpretar();
+        miInterprete.mapearIfElse(0);
+        //miInterprete.interpretar();
 
         String tokenActual = "12524522";
         //if(tokenActual.matches("^[$][a-zA-Z0-9]+$"))

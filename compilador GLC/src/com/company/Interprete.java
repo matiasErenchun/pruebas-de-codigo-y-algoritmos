@@ -12,12 +12,16 @@ public class Interprete
     private LectorInputs miLector;
     private HashMap<String,BigInteger> tablaVariables;
     private Boolean continuar;
+    private HashMap<Integer,Integer> mapaIfElse;
+    private HashMap<Integer,Integer> mapaElseEndIf;
 
     public Interprete(ArrayList<ArrayList<String>>lineas)
     {
         this.priorityMap=new HashMap<>();
         this.miLector = new LectorInputs();
         this.continuar=true;
+        this.mapaIfElse = new HashMap<>();
+        this.mapaElseEndIf = new HashMap<>();
         this.lineas = lineas;
         this.cargarPriorityMap();
         this.tablaVariables = new HashMap<>();
@@ -111,6 +115,47 @@ public class Interprete
         return salida;
     }
 
+    public ArrayList<String> extraerExpresionBooleana(ArrayList<String> lineaActual, int index)
+    {
+        String tokenActual = lineaActual.get(index);
+        ArrayList<String>salida= new ArrayList<>();
+        if(tokenActual.equalsIgnoreCase("("))
+        {
+            int i=index+1;
+            //flata validar que exista el i+1
+            tokenActual=lineaActual.get(i);
+            boolean segir = true;
+            while ( segir && !tokenActual.equalsIgnoreCase(")"))
+            {
+
+                if(!tokenActual.equalsIgnoreCase("("))
+                {
+
+                }
+                else
+                {
+                    salida.add(tokenActual);
+                }
+
+                i++;
+                if(i>=lineaActual.size())
+                {
+                    segir=false;
+                }
+                else
+                {
+                    tokenActual=lineaActual.get(i);
+                }
+            }
+        }
+        else
+        {
+            //error falta parentesis
+            this.continuar=false;
+        }
+
+        return salida;
+    }
 
     public BigInteger resolverExpresionNumerica(ArrayDeque<String>tokens)
     {
@@ -309,8 +354,75 @@ public class Interprete
 
     }
 
-    private void mapearIfElse()
+    public void mapearIfElse(int index)
     {
+        ArrayDeque<ContenedorElseIf>piladeElseIf = new ArrayDeque<>();
+        for (int i = 0; i < this.lineas.size(); i++)
+        {
+            String tokenActual = this.lineas.get(i).get(0);
+            if(tokenActual.equalsIgnoreCase("if"))
+            {
+                ContenedorElseIf contenedor = new ContenedorElseIf(i,tokenActual);
+                piladeElseIf.addFirst(contenedor);
+            }
+            else if(tokenActual.equalsIgnoreCase("else"))
+            {
+                if(piladeElseIf.size()>0)
+                {
+                    ContenedorElseIf contenedor = piladeElseIf.pollFirst();
+                    if(contenedor.getTipo().equalsIgnoreCase("if"))
+                    {
+                        ContenedorElseIf contenedor2=new ContenedorElseIf(i,"else");
+                        piladeElseIf.addFirst(contenedor2);
+                        this.mapaIfElse.putIfAbsent(contenedor.getNumeroLinea(), contenedor2.getNumeroLinea());
+                    }
+                    else
+                    {
+                        //error endif
+                        System.out.println("error en la linea:"+(i+1)+" el else esta demas");
+                        this.continuar=false;
+                    }
+                }
+                else
+                {
+                    //error else
+                    System.out.println("error en la linea:"+(i+1)+" el else no encuentra un if que cerrar");
+                    this.continuar=false;
+                }
+            }
+            else if (tokenActual.equalsIgnoreCase("endif"))
+            {
+                if (piladeElseIf.size()>0)
+                {
+                    ContenedorElseIf contenedor = piladeElseIf.pollFirst();
+                    if(!contenedor.getTipo().equalsIgnoreCase("endif"))
+                    {
+                        if (contenedor.getTipo().equalsIgnoreCase("if"))
+                        {
+                            this.mapaIfElse.putIfAbsent(contenedor.getNumeroLinea(),i);
+                        }
+                        else
+                        {
+                            this.mapaElseEndIf.putIfAbsent(contenedor.getNumeroLinea(),i);
+                        }
+                    }
+                    else
+                    {
+                        //error endif
+                        System.out.println("error en la linea:"+(i+1)+" el endif esta demas");
+                        this.continuar=false;
+                    }
 
+                }
+                else
+                {
+                    System.out.println("error en la linea:"+(i+1)+" el endif no encuentra un if que cerrar");
+                    this.continuar=false;
+                }
+            }
+        }
+
+        System.out.println(this.mapaIfElse.toString());
+        System.out.println(this.mapaElseEndIf.toString());
     }
 }

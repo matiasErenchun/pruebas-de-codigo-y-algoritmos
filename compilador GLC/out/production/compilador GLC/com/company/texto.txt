@@ -1,3 +1,9 @@
-read $a;
-$c = $a +$b * 5;
-write $a+5*5;
+endif;
+if;
+    if;
+    else;
+        if;
+        endif;
+    endif;
+endif;
+
