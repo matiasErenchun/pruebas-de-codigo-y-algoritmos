@@ -23,7 +23,7 @@ public class WhileParseador extends Parseador{
 			return false;
 		}
 		String variable = this.tokens.get(2);
-		if (!variable.matches("^[-]{0,1}[$][a-zA-Z0-9]+$")) {
+		if (!variable.matches("^[-]{0,1}[$][a-zA-Z0-9]+|[-]{0,1}[0-9]+$")) {
 			return false;
 		}
 		String leftPar = this.tokens.get(1);

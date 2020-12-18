@@ -29,7 +29,7 @@ public class IfParseador extends Parseador {
         }
         // var
         String var = this.tokens.get(2);
-        if(!var.matches("^[-]{0,1}[$][a-zA-Z0-9]+$")){
+        if(!var.matches("^[-]{0,1}[$][a-zA-Z0-9]+|[-]{0,1}[0-9]+$")){
             return false;
         }
 		// (
