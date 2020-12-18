@@ -45,7 +45,6 @@ public class LectorFile
         {
             ArrayList<String>tokenSinSpacios = this.tokenizarPorEspacios(string);
             StringBuilder builder= new StringBuilder();
-
             for (String aux: tokenSinSpacios)
             {
 
@@ -78,9 +77,6 @@ public class LectorFile
                     else if (auxChar == ';')
                     {
                         builder=this.validarAgregarBuilder(builder,contenedor);
-                        cadenasFinales.add(contenedor);
-                        contenedor= new ArrayList<>();
-
                     }
                     else if(auxChar == '$')
                     {
@@ -93,10 +89,12 @@ public class LectorFile
                     }
 
                 }
-                    builder = this.validarAgregarBuilder(builder,contenedor);
-            }
-        }
+                builder = this.validarAgregarBuilder(builder,contenedor);
 
+            }
+            cadenasFinales.add(contenedor);
+            contenedor= new ArrayList<>();
+        }
         return cadenasFinales;
 
     }

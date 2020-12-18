@@ -1,5 +1,7 @@
 package com.company;
 
+import com.sun.org.apache.xml.internal.utils.StopParseException;
+
 import java.math.BigInteger;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -42,7 +44,6 @@ public class Interprete
                 {
                     BigInteger valor = miLector.readBigInteger();
                     this.tablaVariables.put(nextToken,valor);
-                    System.out.println(tokenActual+": "+nextToken+"="+this.tablaVariables.get(nextToken));
                 }
                 else
                 {
@@ -57,11 +58,6 @@ public class Interprete
                 {
                     ArrayDeque<String>contenedor = this.extraerExpresionNumerica(lineaActual,indexLineaActual+1);
                     ArrayDeque<String>contenedor2=this.infijoToPrefijo(contenedor);
-                    for (String s: contenedor2)
-                    {
-                        System.out.print(s+" ");
-                    }
-                    System.out.println(" ");
                     System.out.println(this.resolverExpresionNumerica(contenedor2));
                 }
                 i++;
@@ -78,6 +74,7 @@ public class Interprete
                 }
                 else
                 {
+                    System.out.println("holaaaa");
                     //si la respuesta es true pasamo a ejecutar la siguente linea
                     i++;
                 }
@@ -92,14 +89,23 @@ public class Interprete
             }
             else if(tokenActual.equalsIgnoreCase("while"))
             {
-                    ArrayList<String> contenedor = this.extraerExpresionBooleana(lineaActual,1);
-                    System.out.println(contenedor.toString());
+                ArrayList<String> contenedor = this.extraerExpresionBooleana(lineaActual,1);
+                boolean respuesta = this.resolverExpresionBooleana(contenedor);
+                if(!respuesta)
+                {
+                    // pedimos que busque en nuestro mapa a que linea tenemos que saltar
+                    i= this.mapaParOperaciones.get(i)+1;
+                }
+                else
+                {
+                    //si la respuesta es true pasamo a ejecutar la siguente linea
                     i++;
+                }
 
             }
             else if (tokenActual.equalsIgnoreCase("wend"))
             {
-                i++;
+                i=this.mapaParOperaciones.get(i);
             }
             else
             {
@@ -115,10 +121,7 @@ public class Interprete
                     }
                     i++;
                 }
-                else
-                {
 
-                }
             }
             if(i>=this.lineas.size())
             {
@@ -308,6 +311,39 @@ public class Interprete
     public boolean resolverExpresionBooleana(ArrayList<String>expresion)
     {
         boolean salida = true;
+        ArrayDeque<String>expresionDerecha= new ArrayDeque<>();
+        String aEvaluar= " ";
+        ArrayDeque<String>expresionIzquierda = new ArrayDeque<>();
+        int i=0;
+        while (i<expresion.size())
+        {
+            String tokenActual = expresion.get(i);
+            if(tokenActual.matches("[-]{0,1}[$][a-zA-Z0-9]|[-]{0,1}[0-9]|[+]|[-]|[*]|[/]|[%]") && aEvaluar.equalsIgnoreCase(" "))
+            {
+                expresionIzquierda.add(tokenActual);
+            }
+            else if (!aEvaluar.equalsIgnoreCase(" ") && (tokenActual.matches("[-]{0,1}[$][a-zA-Z0-9]|[-]{0,1}[0-9]|[+]|[-]|[*]|[/]|[%]")))
+            {
+                expresionDerecha.add(tokenActual);
+            }
+            else if (tokenActual.matches("[>][=]{0,1}|[<][=]{0,1}|[=]{2}|[!][=]"))
+            {
+                aEvaluar=tokenActual;
+            }
+            i++;
+        }
+        if(expresionIzquierda.isEmpty()|| expresionDerecha.isEmpty()||aEvaluar.equalsIgnoreCase(" "))
+        {
+            salida=false;
+            this.continuar=false;
+            System.out.println("expresionmal escrita:"+expresionIzquierda.toString()+aEvaluar+expresionDerecha.toString());
+        }
+        else
+        {
+            BigInteger izquierda = this.resolverExpresionNumerica(this.infijoToPrefijo(expresionIzquierda));
+            BigInteger derecha = this.resolverExpresionNumerica(this.infijoToPrefijo(expresionDerecha));
+            salida = this.evaluarExpresiones(izquierda, derecha, aEvaluar);
+        }
         return salida;
     }
 
@@ -462,7 +498,8 @@ public class Interprete
                     ContenedorParCaracteres contenedor = piladeElseIf.pollFirst();
                     if(contenedor.getTipo().equalsIgnoreCase("while"))
                     {
-                        this.mapaParOperaciones.putIfAbsent(contenedor.getNumeroLinea(), i);
+                        this.mapaParOperaciones.putIfAbsent(i,contenedor.getNumeroLinea());
+                        this.mapaParOperaciones.putIfAbsent(contenedor.getNumeroLinea(),i);
                     }
                     else
                     {
@@ -479,6 +516,57 @@ public class Interprete
                 }
             }
         }
-        System.out.println(this.mapaParOperaciones.toString());
+    }
+
+    public Boolean evaluarExpresiones(BigInteger izquierda,BigInteger derecha, String token)
+    {
+        if(token.equalsIgnoreCase("=="))
+        {
+            if(izquierda.equals(derecha))
+            {
+                return true;
+            }
+            return false;
+        }
+        else if (token.equalsIgnoreCase(">"))
+        {
+            if (izquierda.compareTo(derecha)==1)
+            {
+                return true;
+            }
+            return false;
+        }
+        else if (token.equalsIgnoreCase("<"))
+        {
+            if (izquierda.compareTo(derecha)==-1)
+            {
+                return true;
+            }
+            return false;
+        }
+        else if (token.equalsIgnoreCase(">="))
+        {
+            if (izquierda.compareTo(derecha)==1 || izquierda.compareTo(derecha)==0 )
+            {
+                return true;
+            }
+            return false;
+        }
+        else if (token.equalsIgnoreCase("<="))
+        {
+            if (izquierda.compareTo(derecha)==-1 || izquierda.compareTo(derecha)==0 )
+            {
+                return true;
+            }
+            return false;
+        }
+        else
+        {
+            if (izquierda.compareTo(derecha)!=0)
+            {
+                return true;
+            }
+            return false;
+        }
     }
 }
