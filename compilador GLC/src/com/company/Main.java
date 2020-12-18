@@ -1,5 +1,6 @@
 package com.company;
 
+import java.math.BigInteger;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 
@@ -18,14 +19,21 @@ public class Main
         miInterprete.interpretar();
 
 
-        String tokenActual = "!=";
+
+        /*
+        String tokenActual = "-$a";
+        tokenActual=tokenActual.replace("-","");
+        System.out.println("--|"+tokenActual);
+        BigInteger aux= new BigInteger("10000");
+        aux=aux.negate();
+        System.out.println(aux);
         //if(tokenActual.matches("^[-]{0,1}[$][a-zA-Z0-9]+$"))
         //if(tokenActual.matches("^[-]{0,1}[0-9]+$"))
         //if(tokenActual.matches("([+]|[-]|[*]|[/]|[%])"))
         //if(tokenActual.matches("[-]{0,1}[$][a-zA-Z0-9]|[-]{0,1}[0-9]|[+]|[-]|[*]|[/]|[%]"))
         //if(tokenActual.matches("[>][=]{0,1}|[<][=]{0,1}|[=]{2}|[!][=]"))
 
-
+         */
 
     }
 }

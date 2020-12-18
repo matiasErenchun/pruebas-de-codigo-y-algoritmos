@@ -1,5 +1,6 @@
 package com.company;
 
+import javax.swing.*;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.ArrayDeque;
@@ -47,7 +48,6 @@ public class LectorFile
             StringBuilder builder= new StringBuilder();
             for (String aux: tokenSinSpacios)
             {
-
                 for (int i = 0; i < aux.length(); i++)
                 {
                     Character auxChar = aux.charAt(i);
@@ -68,7 +68,7 @@ public class LectorFile
                             contenedor.add(auxChar.toString());
                         }
                     }
-                    else if(auxChar == '%' || auxChar == '/' || auxChar == '*' || auxChar == '+' || auxChar == '-' || auxChar=='(' || auxChar==')')
+                    else if(auxChar == '%' || auxChar == '/' || auxChar == '*' || auxChar == '+'  || auxChar=='(' || auxChar==')')
                     {
                         builder=this.validarAgregarBuilder(builder,contenedor);
                         contenedor.add(auxChar.toString());
@@ -78,10 +78,28 @@ public class LectorFile
                     {
                         builder=this.validarAgregarBuilder(builder,contenedor);
                     }
-                    else if(auxChar == '$')
+                    else if(auxChar == '-')
                     {
-                        builder=this.validarAgregarBuilder(builder,contenedor);
-                        builder.append(auxChar.toString());
+                        if(this.validartamaño(aux,i+1))
+                        {
+                            Character auxChar2=aux.charAt(i+1);
+                            if (auxChar2.toString().matches("[$]|[0-9]"))
+                            {
+                                builder = this.validarAgregarBuilder(builder, contenedor);
+                                builder.append(auxChar.toString());
+                                builder.append(auxChar2.toString());
+                                i++;
+                            }
+                            else
+                            {
+                                builder=this.validarAgregarBuilder(builder,contenedor);
+                                contenedor.add(auxChar.toString());
+                            }
+                        }
+                        else
+                        {
+                            System.out.println("error - sin caracter");
+                        }
                     }
                     else
                     {
@@ -118,6 +136,15 @@ public class LectorFile
             builder = new StringBuilder();
         }
         return builder;
+    }
+
+    public boolean validartamaño(String string ,int i)
+    {
+        if(string.length()>i)
+        {
+            return true;
+        }
+        return false;
     }
 
 }

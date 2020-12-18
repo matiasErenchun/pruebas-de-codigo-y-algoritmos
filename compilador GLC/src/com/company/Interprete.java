@@ -1,7 +1,5 @@
 package com.company;
 
-import com.sun.org.apache.xml.internal.utils.StopParseException;
-
 import java.math.BigInteger;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -74,7 +72,6 @@ public class Interprete
                 }
                 else
                 {
-                    System.out.println("holaaaa");
                     //si la respuesta es true pasamo a ejecutar la siguente linea
                     i++;
                 }
@@ -109,14 +106,15 @@ public class Interprete
             }
             else
             {
-                if(tokenActual.matches("^[$][a-zA-Z0-9]+$"))
+                if(tokenActual.matches("^[-]{0,1}[$][a-zA-Z0-9]+$"))
                 {
                     String nexToken=lineaActual.get(indexLineaActual+1);
                     if(nexToken.equalsIgnoreCase("="))
                     {
                         ArrayDeque<String>contenedor = this.extraerExpresionNumerica(lineaActual,indexLineaActual+2);
                         ArrayDeque<String>contenedor2=this.infijoToPrefijo(contenedor);
-                        this.tablaVariables.put(tokenActual,this.resolverExpresionNumerica(contenedor2));
+                        BigInteger resultado = this.resolverExpresionNumerica(contenedor2);
+                        this.tablaVariables.put(tokenActual,resultado);
                         //System.out.println(tokenActual+": "+this.tablaVariables.get(tokenActual));
                     }
                     i++;
@@ -205,13 +203,14 @@ public class Interprete
         while (!tokens.isEmpty())
         {
             String tokenActual = tokens.pollFirst();
-
             //si es una variable
-            if(tokenActual.matches("^[$][a-zA-Z0-9]+$"))
+            if(tokenActual.matches("^[-][$][a-zA-Z0-9]+$"))
             {
+                tokenActual=tokenActual.replace("-","");
                 if(this.tablaVariables.containsKey(tokenActual))
                 {
                     BigInteger aux=this.tablaVariables.get(tokenActual);
+                    aux=aux.negate();
                     pilaResultados.addFirst(aux);
                 }
                 else
@@ -221,6 +220,11 @@ public class Interprete
                     break;
                 }
 
+            }
+            else if (tokenActual.matches("^[$][a-zA-Z0-9]+$"))
+            {
+                BigInteger aux=this.tablaVariables.get(tokenActual);
+                pilaResultados.addFirst(aux);
             }
             //si es un numero
             else if(tokenActual.matches("^[-]{0,1}[0-9]+$"))
@@ -239,7 +243,7 @@ public class Interprete
                 }
                 else
                 {
-                    System.out.println("error de en la sintaxis");
+                    System.out.println("error de en la sintaxis +");
                 }
             }
             else if(tokenActual.equalsIgnoreCase("-"))
@@ -253,7 +257,7 @@ public class Interprete
                 }
                 else
                 {
-                    System.out.println("error de en la sintaxis");
+                    System.out.println("error de en la sintaxis -");
                 }
             }
             else if(tokenActual.equalsIgnoreCase("*"))
@@ -267,7 +271,7 @@ public class Interprete
                 }
                 else
                 {
-                    System.out.println("error de en la sintaxis");
+                    System.out.println("error de en la sintaxis *");
                 }
             }
             else if(tokenActual.equalsIgnoreCase("/"))
@@ -281,7 +285,7 @@ public class Interprete
                 }
                 else
                 {
-                    System.out.println("error de en la sintaxis");
+                    System.out.println("error de en la sintaxis / ");
                 }
             }
             else if(tokenActual.equalsIgnoreCase("%"))
@@ -295,12 +299,12 @@ public class Interprete
                 }
                 else
                 {
-                    System.out.println("error de en la sintaxis");
+                    System.out.println("error de en la sintaxis %");
                 }
             }
             else
             {
-                System.out.println("error de en la sintaxis");
+                System.out.println("error de en la sintaxis general");
             }
         }
         salida = pilaResultados.peekFirst();
