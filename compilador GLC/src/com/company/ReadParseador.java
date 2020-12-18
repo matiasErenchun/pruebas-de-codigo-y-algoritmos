@@ -7,7 +7,7 @@ public class ReadParseador extends Parseador {
 			return false;
 		}
 		String variable = this.tokens.get(1); // Sacamos lo que supuestamente es una variable
-		if (!variable.matches("^[-]{0,1}[$][a-zA-Z0-9]+$")) {
+		if (!variable.matches("^[$][a-zA-Z0-9]+$")) {
 			return false;
 		}
 		String keyword = this.tokens.get(0); // Sacamos lo que supuestamente es un read

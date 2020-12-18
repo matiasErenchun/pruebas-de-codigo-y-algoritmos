@@ -18,7 +18,7 @@ public class AsginarParseador extends Parseador {
 			return false;
 		}
 		String variable = this.tokens.get(0);
-		if (!variable.matches("^[-]{0,1}[$][a-zA-Z0-9]+$")) {
+		if (!variable.matches("^[$][a-zA-Z0-9]+$")) {
 			return false;
 		}
 		return true;
