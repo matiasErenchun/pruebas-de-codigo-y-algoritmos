@@ -5,35 +5,57 @@ import java.util.ArrayList;
 /**
  * 
  */
-public class SyntaxValidator {
+public class SyntaxValidator
+{
 	private boolean isValid;
 	public boolean getIsValid() {
 		return this.isValid;
 	}
-	public SyntaxValidator(ArrayList<String> line) {
+
+	public SyntaxValidator(ArrayList<String> line)
+	{
 		this.isValid = true;
 		Parseador parseador = null;
-		if (line.get(0).equals("read")) {
+		if (line.get(0).equals("read"))
+		{
 			parseador = new ReadParseador();
-		} else if (line.get(0).equals("if")) {
+		}
+		else if (line.get(0).equals("if"))
+		{
 			parseador = new IfParseador();
-		} else if (line.get(0).equals("while")) {
+		}
+		else if (line.get(0).equals("while"))
+		{
 			parseador = new WhileParseador();
-		} else if (line.get(0).equals("write")){
+		}
+		else if (line.get(0).equals("write"))
+		{
 			parseador = new WriteParseador();
-		} else if (line.get(0).startsWith("$")) {
+		}
+		else if (line.get(0).startsWith("$"))
+		{
 			parseador = new AsginarParseador();
-		} else if (line.get(0).equals("endif") && line.size() == 1) {
+		}
+		else if (line.get(0).equals("endif") && line.size() == 1)
+		{
 			this.isValid = true;
-		} else if (line.get(0).equals("wend") && line.size() == 1) {
+		}
+		else if (line.get(0).equals("wend") && line.size() == 1)
+		{
 			this.isValid = true;
-		} else if (line.get(0).equals("else") && line.size() == 1) {
+		}
+		else if (line.get(0).equals("else") && line.size() == 1)
+		{
 			this.isValid = true;
-		} else {
+		}
+		else
+		{
 			this.isValid = false;
 		}
-		if (parseador != null) {
-			for (String token : line) {
+		if (parseador != null)
+		{
+			for (String token : line)
+			{
 				parseador.agregarToken(token);
 			}
 			this.isValid = parseador.estaCorrecto();

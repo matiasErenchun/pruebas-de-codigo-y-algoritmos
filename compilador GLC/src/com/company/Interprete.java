@@ -30,101 +30,83 @@ public class Interprete
         this.mapearIfElse(0);
         boolean salida=true;
         int i=0;
+        SyntaxValidator miSintax;
         while(this.continuar)
         {
             ArrayList<String > lineaActual =this.lineas.get(i);
-            int indexLineaActual =0;
-            String tokenActual=lineaActual.get(indexLineaActual);
-            if (tokenActual.equalsIgnoreCase("read"))
+            miSintax = new SyntaxValidator(lineaActual);
+            if(!miSintax.getIsValid())
             {
-                String  nextToken = lineaActual.get(indexLineaActual+1);
-                if (nextToken.matches("^[$][a-zA-Z0-9]+$"))
-                {
-                    BigInteger valor = miLector.readBigInteger();
-                    this.tablaVariables.put(nextToken,valor);
-                }
-                else
-                {
-                    this.continuar=false;
-                    System.out.println("error al leer, el resultado no se asigna o guarda en una variable ");
-                }
-                i++;
-            }
-            else if(tokenActual.equalsIgnoreCase("write"))
-            {
-                if(indexLineaActual+1<lineaActual.size())
-                {
-                    ArrayDeque<String>contenedor = this.extraerExpresionNumerica(lineaActual,indexLineaActual+1);
-                    ArrayDeque<String>contenedor2=this.infijoToPrefijo(contenedor);
-                    System.out.println(this.resolverExpresionNumerica(contenedor2));
-                }
-                i++;
-
-            }
-            else if(tokenActual.equalsIgnoreCase("if"))
-            {
-                ArrayList<String> contenedor = this.extraerExpresionBooleana(lineaActual,1);
-                boolean respuesta = this.resolverExpresionBooleana(contenedor);
-                if(!respuesta)
-                {
-                        // pedimos que busque en nuestro mapa a que linea tenemos que saltar
-                    i= this.mapaParOperaciones.get(i)+1;
-                }
-                else
-                {
-                    //si la respuesta es true pasamo a ejecutar la siguente linea
-                    i++;
-                }
-            }
-            else if (tokenActual.equalsIgnoreCase("else"))
-            {
-                i=this.mapaParOperaciones.get(i);
-            }
-            else if (tokenActual.equalsIgnoreCase("endif"))
-            {
-                i++;
-            }
-            else if(tokenActual.equalsIgnoreCase("while"))
-            {
-                ArrayList<String> contenedor = this.extraerExpresionBooleana(lineaActual,1);
-                boolean respuesta = this.resolverExpresionBooleana(contenedor);
-                if(!respuesta)
-                {
-                    // pedimos que busque en nuestro mapa a que linea tenemos que saltar
-                    i= this.mapaParOperaciones.get(i)+1;
-                }
-                else
-                {
-                    //si la respuesta es true pasamo a ejecutar la siguente linea
-                    i++;
-                }
-
-            }
-            else if (tokenActual.equalsIgnoreCase("wend"))
-            {
-                i=this.mapaParOperaciones.get(i);
+                System.out.println(" se encontro un Error en la linea: "+i);
+                this.continuar=false;
             }
             else
             {
-                if(tokenActual.matches("^[-]{0,1}[$][a-zA-Z0-9]+$"))
-                {
-                    String nexToken=lineaActual.get(indexLineaActual+1);
-                    if(nexToken.equalsIgnoreCase("="))
-                    {
-                        ArrayDeque<String>contenedor = this.extraerExpresionNumerica(lineaActual,indexLineaActual+2);
-                        ArrayDeque<String>contenedor2=this.infijoToPrefijo(contenedor);
-                        BigInteger resultado = this.resolverExpresionNumerica(contenedor2);
-                        this.tablaVariables.put(tokenActual,resultado);
-                        //System.out.println(tokenActual+": "+this.tablaVariables.get(tokenActual));
+                int indexLineaActual = 0;
+                String tokenActual = lineaActual.get(indexLineaActual);
+                if (tokenActual.equalsIgnoreCase("read")) {
+                    String nextToken = lineaActual.get(indexLineaActual + 1);
+                    if (nextToken.matches("^[$][a-zA-Z0-9]+$")) {
+                        BigInteger valor = miLector.readBigInteger();
+                        this.tablaVariables.put(nextToken, valor);
+                    } else {
+                        this.continuar = false;
+                        System.out.println("error al leer, el resultado no se asigna o guarda en una variable ");
                     }
                     i++;
-                }
+                } else if (tokenActual.equalsIgnoreCase("write")) {
+                    if (indexLineaActual + 1 < lineaActual.size()) {
+                        ArrayDeque<String> contenedor = this.extraerExpresionNumerica(lineaActual, indexLineaActual + 1);
+                        ArrayDeque<String> contenedor2 = this.infijoToPrefijo(contenedor);
+                        System.out.println(this.resolverExpresionNumerica(contenedor2));
+                    }
+                    i++;
 
-            }
-            if(i>=this.lineas.size())
-            {
-                this.continuar=false;
-                salida=false;
+                } else if (tokenActual.equalsIgnoreCase("if")) {
+                    ArrayList<String> contenedor = this.extraerExpresionBooleana(lineaActual, 1);
+                    boolean respuesta = this.resolverExpresionBooleana(contenedor);
+                    if (!respuesta) {
+                        // pedimos que busque en nuestro mapa a que linea tenemos que saltar
+                        i = this.mapaParOperaciones.get(i) + 1;
+                    } else {
+                        //si la respuesta es true pasamo a ejecutar la siguente linea
+                        i++;
+                    }
+                } else if (tokenActual.equalsIgnoreCase("else")) {
+                    i = this.mapaParOperaciones.get(i);
+                } else if (tokenActual.equalsIgnoreCase("endif")) {
+                    i++;
+                } else if (tokenActual.equalsIgnoreCase("while")) {
+                    ArrayList<String> contenedor = this.extraerExpresionBooleana(lineaActual, 1);
+                    boolean respuesta = this.resolverExpresionBooleana(contenedor);
+                    if (!respuesta) {
+                        // pedimos que busque en nuestro mapa a que linea tenemos que saltar
+                        i = this.mapaParOperaciones.get(i) + 1;
+                    } else {
+                        //si la respuesta es true pasamo a ejecutar la siguente linea
+                        i++;
+                    }
+
+                } else if (tokenActual.equalsIgnoreCase("wend")) {
+                    i = this.mapaParOperaciones.get(i);
+                } else {
+                    if (tokenActual.matches("^[-]{0,1}[$][a-zA-Z0-9]+$")) {
+                        String nexToken = lineaActual.get(indexLineaActual + 1);
+                        if (nexToken.equalsIgnoreCase("=")) {
+                            ArrayDeque<String> contenedor = this.extraerExpresionNumerica(lineaActual, indexLineaActual + 2);
+                            ArrayDeque<String> contenedor2 = this.infijoToPrefijo(contenedor);
+                            BigInteger resultado = this.resolverExpresionNumerica(contenedor2);
+                            this.tablaVariables.put(tokenActual, resultado);
+                            //System.out.println(tokenActual+": "+this.tablaVariables.get(tokenActual));
+                        }
+                        i++;
+                    }
+
+                }
+                if (i >= this.lineas.size()) {
+                    this.continuar = false;
+                    salida = false;
+                }
             }
         }
 
