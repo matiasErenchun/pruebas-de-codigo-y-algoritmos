@@ -9,7 +9,7 @@ while ($i <= $n) do
 $act = $fib1 + $fib2;
 $fib2 = $fib1;
 $fib1 = $act;
-$i = i + 1;
+$i = $i + 1;
 wend;
-write $act;
+write -$act;
 endif;

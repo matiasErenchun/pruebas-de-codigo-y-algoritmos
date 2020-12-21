@@ -10,7 +10,7 @@ public class Main
     public static void main(String[] args)
     {
 
-	    String file = "D:\\repo-git-local-2\\pruebas-de-codigo-y-algoritmos\\compilador GLC\\src\\com\\company\\texto.txt";
+	    String file = args[0];
         LectorFile miLectorFile = new LectorFile();
         ArrayDeque<String> cadenas = miLectorFile.leerCadenas(file);
         ArrayList<ArrayList<String>> lineas = miLectorFile.procesarCadenas(cadenas);
