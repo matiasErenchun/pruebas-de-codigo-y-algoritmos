@@ -80,7 +80,7 @@ public class LectorFile
                     }
                     else if(auxChar == '-')
                     {
-                        if(this.validartamaño(aux,i+1))
+                        if(this.validarTamano(aux,i+1))
                         {
                             Character auxChar2=aux.charAt(i+1);
                             if (auxChar2.toString().matches("[$]|[0-9]"))
@@ -138,7 +138,7 @@ public class LectorFile
         return builder;
     }
 
-    public boolean validartamaño(String string ,int i)
+    public boolean validarTamano(String string ,int i)
     {
         if(string.length()>i)
         {
