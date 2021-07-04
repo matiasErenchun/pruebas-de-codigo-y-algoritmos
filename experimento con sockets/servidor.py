@@ -21,3 +21,4 @@ while True:
     respuesta = conexion.recv(1024)
     print(str(respuesta))
     escribir(str(respuesta))
+    
