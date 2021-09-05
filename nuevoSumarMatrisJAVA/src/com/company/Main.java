@@ -6,16 +6,20 @@ public class Main {
 
     public static void main(String[] args)
     {
-        ArrayList<Integer> hola= new ArrayList<>();
+        Integer[][] matriz= new Integer[100][100];
         ArrayList<Thread> hilos = new ArrayList<>();
         Monitor monitor = new Monitor();
         for (int i = 0; i <100 ; i++)
         {
-            hola.add(1);
+            for (int j = 0; j < 100; j++)
+            {
+                matriz[i][j] = 1;
+            }
+
         }
-        for (int i = 0; i < 1000; i++)
+        for (int i = 0; i < 100; i++)
         {
-            SumadorFila nuevoSumador = new SumadorFila(i,hola,monitor);
+            SumadorFila nuevoSumador = new SumadorFila(i,matriz[i],monitor);
             Thread nuevoHilo = new Thread(nuevoSumador);
             hilos.add(nuevoHilo);
         }

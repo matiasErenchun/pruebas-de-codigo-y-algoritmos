@@ -1,15 +1,13 @@
 package com.company;
 
-import java.util.ArrayList;
-
 public class SumadorFila implements Runnable
 {
     private int id;
-    private ArrayList<Integer> sumandos;
+    private Integer[] sumandos;
     private int miTotal;
     private Monitor monitor;
 
-    public SumadorFila(int id,ArrayList<Integer> sumandos,Monitor monitor )
+    public SumadorFila(int id,Integer[] sumandos,Monitor monitor )
     {
         this.id = id;
         this.sumandos = sumandos;
