@@ -1,7 +1,5 @@
 package com.company;
 
-import java.sql.Array;
-
 public class Filtrador implements Runnable
 {
     private int[][] matrizBase;
@@ -17,15 +15,35 @@ public class Filtrador implements Runnable
         this.miContendor = contenedor;
     }
 
+    public void filtarIterativo ()
+    {
+        for (int id = 0; id < matrizBase.length; id++)
+        {
+            for (int i = 0; i < matrizBase[id].length; i++)
+            {
+                int valor;
+                if(this.validarFiltroSuma(id,i))
+                {
+                    valor = filtroMayor(id,i);
+                }
+                else
+                {
+                    valor = this.matrizBase[id][i];
+                }
+                this.miContendor.setCoordenadaMatrizFinal(id,i, valor);
+            }
+        }
+    }
+
     @Override
     public void run()
     {
         for (int i = 0; i < matrizBase[id].length; i++)
         {
             int valor;
-            if(this.validarFiltroSuma(i))
+            if(this.validarFiltroSuma( this.id,i))
             {
-                valor = filtroMas(i);
+                valor = filtroMayor(this.id, i);
             }
             else
             {
@@ -35,10 +53,10 @@ public class Filtrador implements Runnable
         }
     }
 
-    private boolean validarFiltroSuma(int i)
+    private boolean validarFiltroSuma(int id, int i)
     {
         boolean existen = true;
-        if(0 > this.id -1)
+        if(0 > id -1)
         {
             existen =false;
         }
@@ -46,7 +64,7 @@ public class Filtrador implements Runnable
         {
            existen = false;
         }
-        else if( this.matrizBase.length <= this.id+1)
+        else if( this.matrizBase.length <= id+1)
         {
             existen = false;
         }
@@ -56,7 +74,7 @@ public class Filtrador implements Runnable
         }
         return existen;
     }
-    private int filtroMas(int i)
+    private int filtroMayor(int id, int i)
     {
         int mayor =this.matrizBase[id][i];
         if(mayor < this.matrizBase[id-1][i])

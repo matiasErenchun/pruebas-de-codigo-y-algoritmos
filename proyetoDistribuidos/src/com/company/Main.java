@@ -14,29 +14,38 @@ public class Main
                 {166,167,210,114},
                 {27,121,13,213},
                 {66,0,78,18}};
-        ArrayList<Thread> hilos = new ArrayList<>();
-        for (int i = 0; i < 4; i++)
+        int iterativo = 1;
+        if(iterativo==1)
         {
-            Filtrador nuevoFiltrador = new Filtrador(matrizprueba,i,i, micontenedor);
-            Thread nuevoHilo = new Thread(nuevoFiltrador);
-            hilos.add(nuevoHilo);
+            Filtrador nuevoFiltrador = new Filtrador(matrizprueba,0,0, micontenedor);
+            nuevoFiltrador.filtarIterativo();
         }
-
-        for (Thread a : hilos)
+        else
         {
-            a.start();
-        }
-
-        for (Thread a: hilos)
-        {
-            try {
-                a.join();
-            }
-            catch (InterruptedException e )
+            ArrayList<Thread> hilos = new ArrayList<>();
+            for (int i = 0; i < 4; i++)
             {
-                e.printStackTrace();
+                Filtrador nuevoFiltrador = new Filtrador(matrizprueba,i,i, micontenedor);
+                Thread nuevoHilo = new Thread(nuevoFiltrador);
+                hilos.add(nuevoHilo);
             }
 
+            for (Thread a : hilos)
+            {
+                a.start();
+            }
+
+            for (Thread a: hilos)
+            {
+                try {
+                    a.join();
+                }
+                catch (InterruptedException e )
+                {
+                    e.printStackTrace();
+                }
+
+            }
         }
 
         for (int j = 0; j < matriz.length; j++)
