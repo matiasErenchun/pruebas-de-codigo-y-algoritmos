@@ -15,17 +15,17 @@ public class Main
                 {27,121,13,213},
                 {66,0,78,18}};
         int iterativo = 1;
-        if(iterativo==1)
+        if(iterativo==0)
         {
-            Filtrador nuevoFiltrador = new Filtrador(matrizprueba,0,0, micontenedor);
-            nuevoFiltrador.filtarIterativo();
+            Filtrador nuevoFiltrador = new Filtrador(matrizprueba,0,0, micontenedor, 0);
+            nuevoFiltrador.filtarIterativoMayor();
         }
         else
         {
             ArrayList<Thread> hilos = new ArrayList<>();
             for (int i = 0; i < 4; i++)
             {
-                Filtrador nuevoFiltrador = new Filtrador(matrizprueba,i,i, micontenedor);
+                Filtrador nuevoFiltrador = new Filtrador(matrizprueba,i,i, micontenedor, 0);
                 Thread nuevoHilo = new Thread(nuevoFiltrador);
                 hilos.add(nuevoHilo);
             }

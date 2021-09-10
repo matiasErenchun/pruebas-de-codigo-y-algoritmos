@@ -6,16 +6,18 @@ public class Filtrador implements Runnable
     private int id;
     private int salto;
     private Contenedor miContendor;
+    private  int mayorOMenor;
 
-    public Filtrador(int[][] matrizBase, int id, int salto, Contenedor contenedor)
+    public Filtrador(int[][] matrizBase, int id, int salto, Contenedor contenedor, int mayorMenor)
     {
         this.matrizBase = matrizBase;
         this.id = id;
         this.salto = salto;
         this.miContendor = contenedor;
+        this.mayorOMenor = mayorMenor;
     }
 
-    public void filtarIterativo ()
+    public void filtarIterativoMayor()
     {
         for (int id = 0; id < matrizBase.length; id++)
         {
@@ -24,7 +26,15 @@ public class Filtrador implements Runnable
                 int valor;
                 if(this.validarFiltroSuma(id,i))
                 {
-                    valor = filtroMayor(id,i);
+                    if (this.mayorOMenor == 1)
+                    {
+                        valor = filtroMayor(id,i);
+                    }
+                    else
+                    {
+                        valor = filtroMenor(id,i);
+                    }
+
                 }
                 else
                 {
@@ -43,7 +53,15 @@ public class Filtrador implements Runnable
             int valor;
             if(this.validarFiltroSuma( this.id,i))
             {
-                valor = filtroMayor(this.id, i);
+                if (this.mayorOMenor == 1)
+                {
+                    valor = filtroMayor(this.id, i);
+                }
+                else
+                {
+                    valor = filtroMenor(this.id, i);
+                }
+
             }
             else
             {
@@ -94,6 +112,28 @@ public class Filtrador implements Runnable
             mayor = this.matrizBase[id][i+1];
         }
         return mayor;
+    }
+
+    private int filtroMenor(int id, int i)
+    {
+        int menor = this.matrizBase[id][i];
+        if(menor > this.matrizBase[id-1][i])
+        {
+            menor = this.matrizBase[id-1][i];
+        }
+        if(menor > this.matrizBase[id][i-1])
+        {
+            menor = this.matrizBase[id][i-1];
+        }
+        if(menor > this.matrizBase[id+1][i])
+        {
+            menor = this.matrizBase[id+1][i];
+        }
+        if(menor > this.matrizBase[id][i+1])
+        {
+            menor = this.matrizBase[id][i+1];
+        }
+        return menor;
     }
 
 }
