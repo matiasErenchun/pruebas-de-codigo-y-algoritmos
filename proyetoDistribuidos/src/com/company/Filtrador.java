@@ -1,139 +1,19 @@
 package com.company;
 
-public class Filtrador implements Runnable
+public abstract class Filtrador
 {
-    private int[][] matrizBase;
-    private int id;
-    private int salto;
-    private Contenedor miContendor;
-    private  int mayorOMenor;
+    protected int[][] matrizBase;
+    protected int id;
+    protected int salto;
+    protected Contenedor miContendor;
+    protected   int mayorOMenor;
 
-    public Filtrador(int[][] matrizBase, int id, int salto, Contenedor contenedor, int mayorMenor)
-    {
+    public Filtrador(int[][] matrizBase, int id, int salto, Contenedor miContendor, int mayorOMenor) {
         this.matrizBase = matrizBase;
         this.id = id;
         this.salto = salto;
-        this.miContendor = contenedor;
-        this.mayorOMenor = mayorMenor;
-    }
-
-    public void filtarIterativoMayor()
-    {
-        for (int id = 0; id < matrizBase.length; id++)
-        {
-            for (int i = 0; i < matrizBase[id].length; i++)
-            {
-                int valor;
-                if(this.validarFiltroSuma(id,i))
-                {
-                    if (this.mayorOMenor == 1)
-                    {
-                        valor = filtroMayor(id,i);
-                    }
-                    else
-                    {
-                        valor = filtroMenor(id,i);
-                    }
-
-                }
-                else
-                {
-                    valor = this.matrizBase[id][i];
-                }
-                this.miContendor.setCoordenadaMatrizFinal(id,i, valor);
-            }
-        }
-    }
-
-    @Override
-    public void run()
-    {
-        for (int i = 0; i < matrizBase[id].length; i++)
-        {
-            int valor;
-            if(this.validarFiltroSuma( this.id,i))
-            {
-                if (this.mayorOMenor == 1)
-                {
-                    valor = filtroMayor(this.id, i);
-                }
-                else
-                {
-                    valor = filtroMenor(this.id, i);
-                }
-
-            }
-            else
-            {
-                valor = this.matrizBase[this.id][i];
-            }
-            this.miContendor.setCoordenadaMatrizFinal(this.id,i, valor);
-        }
-    }
-
-    private boolean validarFiltroSuma(int id, int i)
-    {
-        boolean existen = true;
-        if(0 > id -1)
-        {
-            existen =false;
-        }
-        else if(0 > i-1)
-        {
-           existen = false;
-        }
-        else if( this.matrizBase.length <= id+1)
-        {
-            existen = false;
-        }
-        else if( this.matrizBase[this.id].length <= i+1)
-        {
-            existen = false;
-        }
-        return existen;
-    }
-    private int filtroMayor(int id, int i)
-    {
-        int mayor =this.matrizBase[id][i];
-        if(mayor < this.matrizBase[id-1][i])
-        {
-            mayor = this.matrizBase[id-1][i];
-        }
-        if(mayor < this.matrizBase[id][i-1])
-        {
-            mayor = this.matrizBase[id][i-1];
-        }
-        if(mayor < this.matrizBase[id+1][i])
-        {
-            mayor = this.matrizBase[id+1][i];
-        }
-        if(mayor < this.matrizBase[id][i+1])
-        {
-            mayor = this.matrizBase[id][i+1];
-        }
-        return mayor;
-    }
-
-    private int filtroMenor(int id, int i)
-    {
-        int menor = this.matrizBase[id][i];
-        if(menor > this.matrizBase[id-1][i])
-        {
-            menor = this.matrizBase[id-1][i];
-        }
-        if(menor > this.matrizBase[id][i-1])
-        {
-            menor = this.matrizBase[id][i-1];
-        }
-        if(menor > this.matrizBase[id+1][i])
-        {
-            menor = this.matrizBase[id+1][i];
-        }
-        if(menor > this.matrizBase[id][i+1])
-        {
-            menor = this.matrizBase[id][i+1];
-        }
-        return menor;
+        this.miContendor = miContendor;
+        this.mayorOMenor = mayorOMenor;
     }
 
 }
