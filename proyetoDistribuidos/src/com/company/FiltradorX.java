@@ -2,20 +2,9 @@ package com.company;
 
 public class FiltradorX extends Filtrador implements Runnable
 {
-    private int[][] matrizBase;
-    private int id;
-    private int salto;
-    private Contenedor miContendor;
-    private  int mayorOMenor;
-
     public FiltradorX(int[][] matrizBase, int id, int salto, Contenedor contenedor, int mayorMenor)
     {
         super(matrizBase,id,salto,contenedor,mayorMenor);
-    }
-
-    public void filtarIterativoX()
-    {
-
     }
 
     @Override
@@ -24,10 +13,40 @@ public class FiltradorX extends Filtrador implements Runnable
 
     }
 
+    public void filtarIterativoX()
+    {
+        for (int id = 0; id < this.matrizBase.length; id++)
+        {
+            for (int i = 0; i < this.matrizBase[id].length; i++)
+            {
+                int valor;
+                if(this.validarFiltroX(id,i))
+                {
+                    System.out.println("hola id:" + id + " i:"+i);
+                    if (this.mayorOMenor == 1)
+                    {
+                        valor = filtroMayor(id,i);
+                    }
+                    else
+                    {
+                        valor = filtroMenor(id,i);
+                    }
+
+                }
+                else
+                {
+                    valor = this.matrizBase[id][i];
+                }
+                System.out.println("valor:" + valor);
+                this.miContendor.setCoordenadaMatrizFinal(id,i, valor);
+            }
+        }
+    }
+
     private boolean validarFiltroX(int id, int i)
     {
         boolean existen = true;
-        if(0 > id -1 || 0 > i-1 || this.matrizBase[id].length < i+1 || this.matrizBase.length <id+1)
+        if(0 > id -1 || 0 > i-1 || this.matrizBase[id].length <= i+1 || this.matrizBase.length <= id+1)
         {
             existen =false;
         }
@@ -37,9 +56,9 @@ public class FiltradorX extends Filtrador implements Runnable
     private int filtroMayor(int id, int i)
     {
         int mayor =this.matrizBase[id][i];
-        if(mayor < this.matrizBase[id-1][-i])
+        if(mayor < this.matrizBase[id-1][i-1])
         {
-            mayor = this.matrizBase[id-1][-i];
+            mayor = this.matrizBase[id-1][i-1];
         }
         if(mayor < this.matrizBase[id+1][i-1])
         {

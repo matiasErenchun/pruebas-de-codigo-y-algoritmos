@@ -14,11 +14,21 @@ public class Main
                 {166,167,210,114},
                 {27,121,13,213},
                 {66,0,78,18}};
-        int iterativo = 1;
+        int iterativo = 0;
+        int opcion = 1;
         if(iterativo==0)
         {
-            FiltradorMas nuevoFiltrador = new FiltradorMas(matrizprueba,0,0, micontenedor, 0);
-            nuevoFiltrador.filtarIterativoMas();
+            if (opcion == 0)
+            {
+                FiltradorMas nuevoFiltrador = new FiltradorMas(matrizprueba,0,0, micontenedor, 0);
+                nuevoFiltrador.filtarIterativoMas();
+            }
+            else if (opcion ==1 )
+            {
+                FiltradorX nuevoFiltadorX = new FiltradorX(matrizprueba,0,0, micontenedor, 1);
+                nuevoFiltadorX.filtarIterativoX();
+            }
+
         }
         else
         {
