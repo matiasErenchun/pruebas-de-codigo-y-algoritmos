@@ -10,6 +10,27 @@ public class FiltradorX extends Filtrador implements Runnable
     @Override
     public void run()
     {
+        for (int i = 0; i < this.matrizBase[id].length; i++)
+        {
+            int valor;
+            if(this.validarFiltroX( this.id,i))
+            {
+                if (this.mayorOMenor == 1)
+                {
+                    valor = filtroMayor(this.id, i);
+                }
+                else
+                {
+                    valor = filtroMenor(this.id, i);
+                }
+
+            }
+            else
+            {
+                valor = this.matrizBase[this.id][i];
+            }
+            this.miContendor.setCoordenadaMatrizFinal(this.id,i, valor);
+        }
 
     }
 
