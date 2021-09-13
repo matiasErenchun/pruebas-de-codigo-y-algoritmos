@@ -14,18 +14,19 @@ public class Main
                 {166,167,210,114},
                 {27,121,13,213},
                 {66,0,78,18}};
-        int iterativo = 0;
+        int iterativo = 1;
         int opcion = 1;
+        int mayorMenor = 1;
         if(iterativo==0)
         {
             if (opcion == 0)
             {
-                FiltradorMas nuevoFiltrador = new FiltradorMas(matrizprueba,0,0, micontenedor, 0);
+                FiltradorMas nuevoFiltrador = new FiltradorMas(matrizprueba,0,0, micontenedor, mayorMenor);
                 nuevoFiltrador.filtarIterativoMas();
             }
             else if (opcion ==1 )
             {
-                FiltradorX nuevoFiltadorX = new FiltradorX(matrizprueba,0,0, micontenedor, 1);
+                FiltradorX nuevoFiltadorX = new FiltradorX(matrizprueba,0,0, micontenedor, mayorMenor);
                 nuevoFiltadorX.filtarIterativoX();
             }
 
@@ -33,28 +34,56 @@ public class Main
         else
         {
             ArrayList<Thread> hilos = new ArrayList<>();
-            for (int i = 0; i < 4; i++)
+            if (opcion == 0)
             {
-                FiltradorMas nuevoFiltrador = new FiltradorMas(matrizprueba,i,i, micontenedor, 0);
-                Thread nuevoHilo = new Thread(nuevoFiltrador);
-                hilos.add(nuevoHilo);
-            }
-
-            for (Thread a : hilos)
-            {
-                a.start();
-            }
-
-            for (Thread a: hilos)
-            {
-                try {
-                    a.join();
-                }
-                catch (InterruptedException e )
+                for (int i = 0; i < 4; i++)
                 {
-                    e.printStackTrace();
+                    FiltradorMas nuevoFiltrador = new FiltradorMas(matrizprueba,i,i, micontenedor, mayorMenor);
+                    Thread nuevoHilo = new Thread(nuevoFiltrador);
+                    hilos.add(nuevoHilo);
                 }
 
+                for (Thread a : hilos)
+                {
+                    a.start();
+                }
+
+                for (Thread a: hilos)
+                {
+                    try {
+                        a.join();
+                    }
+                    catch (InterruptedException e )
+                    {
+                        e.printStackTrace();
+                    }
+
+                }
+            }else if(opcion == 1)
+            {
+                for (int i = 0; i < 4; i++)
+                {
+                    FiltradorX nuevoFiltrador = new FiltradorX(matrizprueba,i,i, micontenedor, mayorMenor);
+                    Thread nuevoHilo = new Thread(nuevoFiltrador);
+                    hilos.add(nuevoHilo);
+                }
+
+                for (Thread a : hilos)
+                {
+                    a.start();
+                }
+
+                for (Thread a: hilos)
+                {
+                    try {
+                        a.join();
+                    }
+                    catch (InterruptedException e )
+                    {
+                        e.printStackTrace();
+                    }
+
+                }
             }
         }
 
