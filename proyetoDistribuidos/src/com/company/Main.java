@@ -14,9 +14,9 @@ public class Main
                 {166,167,210,114},
                 {27,121,13,213},
                 {66,0,78,18}};
-        int iterativo = 0;
-        int opcion = 4;
-        int mayorMenor = 0;
+        int iterativo = 1;
+        int opcion = 5;
+        int mayorMenor = 1;
         if(iterativo == 0)
         {
             if (opcion == 0)
@@ -43,6 +43,11 @@ public class Main
             {
                 FiltradorPilar nuevoFiltadorPolar = new FiltradorPilar(matrizprueba,0,0, micontenedor, mayorMenor);
                 nuevoFiltadorPolar.filtarIterativoPilar();
+            }
+            else if(opcion == 5)
+            {
+                FiltradorHorizontal nuevoFiltadorPolar = new FiltradorHorizontal(matrizprueba,0,0, micontenedor, mayorMenor);
+                nuevoFiltadorPolar.filtarIterativoHorizontal();
             }
 
         }
@@ -179,6 +184,32 @@ public class Main
 
                 }
             }
+            else if(opcion == 5)
+            {
+                for (int i = 0; i < 4; i++)
+                {
+                    FiltradorHorizontal nuevoFiltrador = new FiltradorHorizontal(matrizprueba,i,i, micontenedor, mayorMenor);
+                    Thread nuevoHilo = new Thread(nuevoFiltrador);
+                    hilos.add(nuevoHilo);
+                }
+
+                for (Thread a : hilos)
+                {
+                    a.start();
+                }
+
+                for (Thread a: hilos)
+                {
+                    try {
+                        a.join();
+                    }
+                    catch (InterruptedException e )
+                    {
+                        e.printStackTrace();
+                    }
+
+                }
+            }
         }
 
         for (int j = 0; j < matriz.length; j++)
@@ -189,7 +220,6 @@ public class Main
             }
             System.out.println(" ");
         }
-
 	// write your code here
     }
 }
