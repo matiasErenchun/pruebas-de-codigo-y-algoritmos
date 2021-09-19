@@ -14,10 +14,10 @@ public class Main
                 {166,167,210,114},
                 {27,121,13,213},
                 {66,0,78,18}};
-        int iterativo = 1;
-        int opcion = 1;
-        int mayorMenor = 1;
-        if(iterativo==0)
+        int iterativo = 0;
+        int opcion = 4;
+        int mayorMenor = 0;
+        if(iterativo == 0)
         {
             if (opcion == 0)
             {
@@ -28,6 +28,21 @@ public class Main
             {
                 FiltradorX nuevoFiltadorX = new FiltradorX(matrizprueba,0,0, micontenedor, mayorMenor);
                 nuevoFiltadorX.filtarIterativoX();
+            }
+            else if( opcion == 2)
+            {
+                FiltadorEsquinaSuperior nuevoFiltadorEsquinaSuperior = new FiltadorEsquinaSuperior(matrizprueba,0,0, micontenedor, mayorMenor);
+                nuevoFiltadorEsquinaSuperior.filtarIterativoESquinaSuperior();
+            }
+            else if( opcion == 3)
+            {
+                FiltradorEsquinaInferior nuevoFiltadorEsquinaInferior = new FiltradorEsquinaInferior(matrizprueba,0,0, micontenedor, mayorMenor);
+                nuevoFiltadorEsquinaInferior.filtarIterativoEsquinaInferior();
+            }
+            else if(opcion == 4)
+            {
+                FiltradorPilar nuevoFiltadorPolar = new FiltradorPilar(matrizprueba,0,0, micontenedor, mayorMenor);
+                nuevoFiltadorPolar.filtarIterativoPilar();
             }
 
         }
@@ -59,11 +74,90 @@ public class Main
                     }
 
                 }
-            }else if(opcion == 1)
+            }
+            else if(opcion == 1)
             {
                 for (int i = 0; i < 4; i++)
                 {
                     FiltradorX nuevoFiltrador = new FiltradorX(matrizprueba,i,i, micontenedor, mayorMenor);
+                    Thread nuevoHilo = new Thread(nuevoFiltrador);
+                    hilos.add(nuevoHilo);
+                }
+
+                for (Thread a : hilos)
+                {
+                    a.start();
+                }
+
+                for (Thread a: hilos)
+                {
+                    try {
+                        a.join();
+                    }
+                    catch (InterruptedException e )
+                    {
+                        e.printStackTrace();
+                    }
+
+                }
+            }
+            else if(opcion == 2)
+            {
+                for (int i = 0; i < 4; i++)
+                {
+                    FiltadorEsquinaSuperior nuevoFiltrador = new FiltadorEsquinaSuperior(matrizprueba,i,i, micontenedor, mayorMenor);
+                    Thread nuevoHilo = new Thread(nuevoFiltrador);
+                    hilos.add(nuevoHilo);
+                }
+
+                for (Thread a : hilos)
+                {
+                    a.start();
+                }
+
+                for (Thread a: hilos)
+                {
+                    try {
+                        a.join();
+                    }
+                    catch (InterruptedException e )
+                    {
+                        e.printStackTrace();
+                    }
+
+                }
+            }
+            else if(opcion == 3)
+            {
+                for (int i = 0; i < 4; i++)
+                {
+                    FiltradorEsquinaInferior nuevoFiltrador = new FiltradorEsquinaInferior(matrizprueba,i,i, micontenedor, mayorMenor);
+                    Thread nuevoHilo = new Thread(nuevoFiltrador);
+                    hilos.add(nuevoHilo);
+                }
+
+                for (Thread a : hilos)
+                {
+                    a.start();
+                }
+
+                for (Thread a: hilos)
+                {
+                    try {
+                        a.join();
+                    }
+                    catch (InterruptedException e )
+                    {
+                        e.printStackTrace();
+                    }
+
+                }
+            }
+            else if(opcion == 4)
+            {
+                for (int i = 0; i < 4; i++)
+                {
+                    FiltradorPilar nuevoFiltrador = new FiltradorPilar(matrizprueba,i,i, micontenedor, mayorMenor);
                     Thread nuevoHilo = new Thread(nuevoFiltrador);
                     hilos.add(nuevoHilo);
                 }
