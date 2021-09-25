@@ -1,31 +1,49 @@
 package com.company;
 
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.util.Scanner;
 
 public class LeerImagen {
+
+    private String nombreArchivo;
+    private int ancho;
+    private int alto;
+    private int blancoAbsoluto;
+    private int[][] pixeles;
     
-    public LeerImagen(){}
+    public LeerImagen(String nombreArchivo) throws Exception{
+        Scanner leer = null;
+        try {
+            File imagen = new File(nombreArchivo);
+            leer = new Scanner(imagen);
+            System.out.println(leer.hasNext());
+            leer.nextLine();
+            leer.nextLine();
+            ancho = leer.nextInt();
+            alto = leer.nextInt();
+            blancoAbsoluto = leer.nextInt();
 
-    public int[][] matrizImagen(BufferedImage bufferedImage){
+            pixeles = new int[alto][ancho];
 
-        System.out.println("dentro de la matrizImagen");
-
-        int ancho = bufferedImage.getWidth(null);
-        System.out.println(ancho);
-        int alto = bufferedImage.getHeight(null);
-        System.out.println(alto);
-
-        int[][] pixeles = new int[ancho][alto];
-
-        for (int i = 0; i < alto; i++) {
-            for (int j = 0; j < ancho; j++) {
-                pixeles[i][j] = bufferedImage.getRGB(i,j);
-                System.out.print(pixeles[i][j] + "|");
+            for (int i = 0; i < alto; i++) {
+                for (int j = 0; j < ancho; j++) {
+                    pixeles[i][j] = leer.nextInt();
+                    System.out.println(pixeles[i][j]);
+                }
             }
-            System.out.println("");
-        }
+            leer.close();
 
-        return pixeles;
+        } catch (Exception e) {
+            throw e;
+        } finally{
+            if(leer != null){
+                leer.close();
+            }
+        }
+    }
+
+    public void matrizImagen(String nombreArchivo){
     }
 
 }
