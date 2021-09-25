@@ -243,7 +243,8 @@ public class Main {
     public static void main(String[] args) throws IOException {
         
         try {
-            LeerImagen leer = new LeerImagen("C:\\Users\\felip\\Documents\\GitHub\\pruebas-de-codigo-y-algoritmos\\proyetoDistribuidos\\src\\com\\company\\dilatacion.pgm");
+            LeerImagen leer = new LeerImagen();
+            leer.matrizImagen("C:\\Users\\felip\\Documents\\GitHub\\pruebas-de-codigo-y-algoritmos\\proyetoDistribuidos\\src\\com\\company\\dilatacion.pgm");
             //BufferedImage img = ImageIO.read(new File("anime.jpg"));
             //leer.matrizImagen(img);
             //System.out.println(img);
