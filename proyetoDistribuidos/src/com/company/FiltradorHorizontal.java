@@ -10,6 +10,9 @@ public class FiltradorHorizontal extends Filtrador implements Runnable
 
     public void filtarIterativoHorizontal()
     {
+        System.out.println(this.miContendor.lawea());
+        System.out.println(this.matrizBase.length);
+        this.imprimir(this.matrizBase);
         for (int id = 0; id < this.matrizBase.length; id++)
         {
             for (int i = 0; i < this.matrizBase[id].length; i++)
@@ -33,6 +36,15 @@ public class FiltradorHorizontal extends Filtrador implements Runnable
                 }
                 this.miContendor.setCoordenadaMatrizFinal(id,i, valor);
             }
+        }
+    }
+
+    public void imprimir(int[][] matriz){
+        for (int i = 0; i < matriz.length; i++) {
+            for (int j = 0; j < matriz.length; j++) {
+                System.out.print(matriz[i][j] + "|");
+            }
+            System.out.println("");
         }
     }
 
