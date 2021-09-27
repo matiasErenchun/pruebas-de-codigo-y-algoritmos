@@ -15,7 +15,7 @@ public class Main {
         
         try {
             LeerImagen leer = new LeerImagen();
-            leer.matrizImagen("C:\\Users\\felip\\Documents\\GitHub\\pruebas-de-codigo-y-algoritmos\\proyetoDistribuidos\\src\\com\\company\\prueba1.pgm");
+            leer.matrizImagen("C:\\Users\\felip\\Documents\\GitHub\\pruebas-de-codigo-y-algoritmos\\proyetoDistribuidos\\src\\com\\company\\dilatacion.pgm");
             //ImageIO.write(img,"png",new File("C:/lawea.png"));
         } catch (Exception e) {
             e.printStackTrace();

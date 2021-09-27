@@ -16,6 +16,7 @@ public class LeerImagen {
     public LeerImagen(){}
 
     public void matrizImagen(String nombreArchivo) throws IOException {
+        this.nombreArchivo = nombreArchivo;
         final FileInputStream f = new FileInputStream(nombreArchivo);
         final BufferedReader br = new BufferedReader(new InputStreamReader(f));
         if (!br.readLine().equals("P5")) {
@@ -31,7 +32,7 @@ public class LeerImagen {
         Scanner sc = new Scanner(line);
         this.ancho = sc.nextInt();
         this.alto = sc.nextInt();
-        int maxVal = Integer.parseInt(br.readLine());
+        this.blancoAbsoluto = Integer.parseInt(br.readLine());
 
 
         int[][] originalImage = new int[alto + 2][ancho + 2];
@@ -39,15 +40,12 @@ public class LeerImagen {
         for (int i = 0; i < alto; i++){
             for (int j = 0; j < ancho; j++){
                 int numero = originalImage[i + 1][j + 1] = br.read();
-                this.pixeles[i][j] = numero/256;
+                this.pixeles[i][j] = numero;
             }
             System.out.println(" ");
         }
 
         f.close();
-        System.out.println("");
-        imprimir_pixeles();
-        System.out.println();
         filtros();
     }
 
@@ -66,7 +64,7 @@ public class LeerImagen {
         //int [][] matrizprueba = this.pixeles;
         int iterativo = 0;
         int opcion = 5;
-        int mayorMenor = 0; // buscar el numero mayor o buscar el numero menor. 0 - 1
+        int mayorMenor = 1; // buscar el numero mayor o buscar el numero menor. 0 - 1
         if(iterativo == 0)
         {
             if (opcion == 0)
@@ -272,28 +270,25 @@ public class LeerImagen {
                 }
             }
         }
-        System.out.println();
-        System.out.println("Matriz resultante despues del filtro");
-        System.out.println();
-        for (int j = 0; j < matriz.length; j++)
-        {
-            System.out.print("j:"+j + "|");
-            for (int k = 0; k < matriz.length; k++)
-            {
-                System.out.print("k:"+ k +"->");
-                System.out.print(matriz[j][k] +", ");
-            }
-            System.out.println(" ");
-        }
+        crear_pmg(matriz);
     }
 
-    public void imprimir_matriz_n(int[][] matriz){
-        System.out.println(matriz.length);
-        for (int i = 0; i < matriz.length; i++) {
-            for (int j = 0; j < matriz.length; j++){
-                System.out.print(matriz[i][j] + "|");
+    public void crear_pmg(int[][] matriz){
+
+        try{
+            FileWriter fw = new FileWriter("salida.pgm");
+            BufferedWriter salida = new BufferedWriter(fw);
+            System.out.println(this.blancoAbsoluto);
+            salida.write("P2\n# CREATOR: XV Version 3.10a  Rev: 08/26/21\n"+this.ancho+" "+this.alto+"\n"+this.blancoAbsoluto+"\n");
+            for (int i = 0; i < this.alto; i++) {
+                for (int j = 0; j < this.ancho; j++) {
+                    salida.write(matriz[i][j]+" ");
+                }
             }
-            System.out.println();
+            System.out.println("Se ha creado con exito el archivo de prueba");
+            salida.close();
+        }catch (Exception e){
+            e.printStackTrace();
         }
     }
 
