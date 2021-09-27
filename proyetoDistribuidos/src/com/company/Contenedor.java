@@ -13,5 +13,9 @@ public class Contenedor
         this.matrizFinal[i][j] = valor;
     }
 
+    public int[][] getMatrizFinal()
+    {
+        return matrizFinal;
+    }
 }
 

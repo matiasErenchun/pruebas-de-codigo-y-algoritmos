@@ -58,7 +58,7 @@ public class FiltradorX extends Filtrador implements Runnable
                 {
                     valor = this.matrizBase[id][i];
                 }
-                System.out.println("valor:" + valor);
+                //System.out.println("valor:" + valor);
                 this.miContendor.setCoordenadaMatrizFinal(id,i, valor);
             }
         }

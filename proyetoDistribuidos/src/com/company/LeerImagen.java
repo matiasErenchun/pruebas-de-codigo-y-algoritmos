@@ -4,6 +4,7 @@ import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.StringTokenizer;
 
 public class LeerImagen {
 
@@ -17,7 +18,121 @@ public class LeerImagen {
 
     public void matrizImagen(String nombreArchivo) throws IOException {
         this.nombreArchivo = nombreArchivo;
-        final FileInputStream f = new FileInputStream(nombreArchivo);
+        File file = new File(this.nombreArchivo);
+        System.out.println(file.length());
+        final FileInputStream f = new FileInputStream(file);
+        ArrayList<ArrayList<Integer>> lineas = new ArrayList<>();
+        ArrayList<Integer> caja =  new ArrayList<>();
+        System.out.println(f.available());
+        int chrr;
+        int i = 0;
+        int j = 0;
+
+        while (f.available() != 0)
+        {
+            System.out.println("avaible: " + f.available());
+            chrr = f.read();
+            if(chrr != 10)
+            {
+                System.out.print(chrr +" ");
+                caja.add(chrr);
+            }
+            else
+            {
+               System.out.println(" linea " + i );
+               caja.add(chrr);
+               lineas.add(caja);
+               caja = new ArrayList<>();
+               i++;
+            }
+            j++;
+        }
+
+        int aux = lineas.size();
+        for (int k = 0; k < caja.size(); k++)
+        {
+            lineas.get(aux - 1).add(caja.get(k));
+        }
+        System.out.println(lineas.size());
+        System.out.println(lineas.get(lineas.size()-1).size());
+        System.out.println( " ------ ");
+
+
+        char charAux;
+        int ancho = 0;
+        int alto = 0;
+        ArrayList<Integer> numeros = new ArrayList<>();
+        for (int k = 0; k < lineas.size(); k++)
+        {
+            StringBuffer st = new StringBuffer();
+            ArrayList<Integer> cajaAuxContenedor = lineas.get(k);
+            System.out.println("lagor :" + cajaAuxContenedor.size());
+            if( k ==  0)
+            {
+                for (int l = 0; l < cajaAuxContenedor.size(); l++)
+                {
+                    int valorAuxiliar =  cajaAuxContenedor.get(l);
+                    charAux = (char) valorAuxiliar;
+                    st.append(charAux);
+                }
+                if(!st.toString().contains("P5")){
+                    System.out.println("no es formato p5");
+                }
+                else
+                {
+                    System.out.println(st.toString());
+                }
+            }
+            else if(  k == 1 )
+            {
+                for (int l = 0; l < cajaAuxContenedor.size(); l++)
+                {
+                    int valorAuxiliar =  cajaAuxContenedor.get(l);
+                    charAux = (char) valorAuxiliar;
+                    st.append(charAux);
+                }
+                StringTokenizer stken = new StringTokenizer(st.toString());
+                ancho = Integer.parseInt(stken.nextToken());
+                alto = Integer.parseInt(stken.nextToken());
+                System.out.println("ancho :" + ancho + ", alto:"+ alto);
+            }
+            else if(k == 2)
+            {
+                for (int l = 0; l < cajaAuxContenedor.size(); l++)
+                {
+                    int valorAuxiliar =  cajaAuxContenedor.get(l);
+                    charAux = (char) valorAuxiliar;
+                    //sfsdfdf
+                    st.append(charAux);
+                }
+                StringTokenizer stken = new StringTokenizer(st.toString());
+                String blancoContenedor = stken.nextToken();
+                int blancoMasBlanco = Integer.parseInt(blancoContenedor);
+                System.out.println("el blanco mas blanco:" + blancoMasBlanco);
+            }
+            else
+            {
+                for (int l = 0; l < cajaAuxContenedor.size(); l++) {
+                    numeros.add(cajaAuxContenedor.get(l));
+                }
+            }
+        }
+        this.pixeles = new int[alto][ancho];
+        int[][] originalImage = new int[alto][ancho];
+
+        int valorEnElArregloDeNumeros = 0;
+        for ( i = 0; i < alto; i++){
+            System.out.print( "fila: "+ i + " ");
+            for ( j = 0; j < ancho; j++){
+                int numero = originalImage[i][j] = numeros.get(valorEnElArregloDeNumeros);
+                System.out.print(numero + "|");
+                this.pixeles[i][j] = numero;
+                valorEnElArregloDeNumeros++;
+            }
+            System.out.println(" ");
+        }
+
+        /*
         final BufferedReader br = new BufferedReader(new InputStreamReader(f));
         if (!br.readLine().equals("P5")) {
             System.err.println("Image file is not P5.");
@@ -33,20 +148,27 @@ public class LeerImagen {
         this.ancho = sc.nextInt();
         this.alto = sc.nextInt();
         this.blancoAbsoluto = Integer.parseInt(br.readLine());
+        System.out.println(blancoAbsoluto + "blanco absoluto");
 
-
-        int[][] originalImage = new int[alto + 2][ancho + 2];
+        int[][] originalImage = new int[alto][ancho];
         this.pixeles = new int[alto][ancho];
-        for (int i = 0; i < alto; i++){
-            for (int j = 0; j < ancho; j++){
-                int numero = originalImage[i + 1][j + 1] = br.read();
+
+        for ( i = 0; i < alto; i++){
+            for ( j = 0; j < ancho; j++){
+                int numero = originalImage[i][j] = br.read();
+                System.out.print(numero + "|");
                 this.pixeles[i][j] = numero;
             }
             System.out.println(" ");
         }
 
+        */
         f.close();
-        filtros();
+        //this.crear_pmg(originalImage);
+        //imprimir_pixeles();
+        //filtros();
+
+
     }
 
     public void imprimir_pixeles(){
@@ -63,8 +185,9 @@ public class LeerImagen {
         Contenedor micontenedor = new Contenedor(matriz);
         //int [][] matrizprueba = this.pixeles;
         int iterativo = 0;
-        int opcion = 5;
+        int opcion = 1;
         int mayorMenor = 1; // buscar el numero mayor o buscar el numero menor. 0 - 1
+
         if(iterativo == 0)
         {
             if (opcion == 0)
@@ -270,7 +393,7 @@ public class LeerImagen {
                 }
             }
         }
-        crear_pmg(matriz);
+        crear_pmg(micontenedor.getMatrizFinal());
     }
 
     public void crear_pmg(int[][] matriz){
@@ -291,6 +414,7 @@ public class LeerImagen {
             e.printStackTrace();
         }
     }
+
 
 
 
