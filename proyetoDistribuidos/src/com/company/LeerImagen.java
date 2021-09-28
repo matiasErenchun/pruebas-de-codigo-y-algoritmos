@@ -133,39 +133,7 @@ public class LeerImagen {
             System.out.println(" ");
         }
 
-        /*
-        final BufferedReader br = new BufferedReader(new InputStreamReader(f));
-        if (!br.readLine().equals("P5")) {
-            System.err.println("Image file is not P5.");
-            System.exit(-1);
-        }
-
-        String line;
-        do {
-            line = br.readLine();
-        } while (line.startsWith("#"));
-
-        Scanner sc = new Scanner(line);
-        this.ancho = sc.nextInt();
-        this.alto = sc.nextInt();
-        this.blancoAbsoluto = Integer.parseInt(br.readLine());
-        System.out.println(blancoAbsoluto + "blanco absoluto");
-
-        int[][] originalImage = new int[alto][ancho];
-        this.pixeles = new int[alto][ancho];
-
-        for ( i = 0; i < alto; i++){
-            for ( j = 0; j < ancho; j++){
-                int numero = originalImage[i][j] = br.read();
-                System.out.print(numero + "|");
-                this.pixeles[i][j] = numero;
-            }
-            System.out.println(" ");
-        }
-
-        */
         f.close();
-        //this.crear_pmg(originalImage);
         //imprimir_pixeles();
         filtros();
 
@@ -186,7 +154,7 @@ public class LeerImagen {
         Contenedor micontenedor = new Contenedor(matriz);
         //int [][] matrizprueba = this.pixeles;
         int iterativo = 0;
-        int opcion = 1;
+        int opcion = 5;
         int mayorMenor = 0; // buscar el numero mayor o buscar el numero menor. 0 - 1
 
         if(iterativo == 0)

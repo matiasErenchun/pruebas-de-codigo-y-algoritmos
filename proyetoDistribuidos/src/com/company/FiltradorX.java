@@ -10,7 +10,7 @@ public class FiltradorX extends Filtrador implements Runnable
     @Override
     public void run()
     {
-        for (int i = 0; i < this.matrizBase[id].length; i++)
+        for (int i = 0; i < this.matrizBase[this.id].length; i++)
         {
             int valor;
             if(this.validarFiltroX( this.id,i))
