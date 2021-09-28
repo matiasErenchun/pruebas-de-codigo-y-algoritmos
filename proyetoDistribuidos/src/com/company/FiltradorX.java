@@ -36,6 +36,7 @@ public class FiltradorX extends Filtrador implements Runnable
 
     public void filtarIterativoX()
     {
+        System.out.println(this.matrizBase.length +" largo pixeles");
         for (int id = 0; id < this.matrizBase.length; id++)
         {
             for (int i = 0; i < this.matrizBase[id].length; i++)

@@ -92,8 +92,8 @@ public class LeerImagen {
                     st.append(charAux);
                 }
                 StringTokenizer stken = new StringTokenizer(st.toString());
-                ancho = Integer.parseInt(stken.nextToken());
-                alto = Integer.parseInt(stken.nextToken());
+                this.ancho = Integer.parseInt(stken.nextToken());
+                this.alto = Integer.parseInt(stken.nextToken());
                 System.out.println("ancho :" + ancho + ", alto:"+ alto);
             }
             else if(k == 2)
@@ -107,8 +107,8 @@ public class LeerImagen {
                 }
                 StringTokenizer stken = new StringTokenizer(st.toString());
                 String blancoContenedor = stken.nextToken();
-                int blancoMasBlanco = Integer.parseInt(blancoContenedor);
-                System.out.println("el blanco mas blanco:" + blancoMasBlanco);
+                this.blancoAbsoluto = Integer.parseInt(blancoContenedor);
+                System.out.println("el blanco mas blanco:" + this.blancoAbsoluto);
             }
             else
             {
@@ -117,13 +117,14 @@ public class LeerImagen {
                 }
             }
         }
-        this.pixeles = new int[alto][ancho];
-        int[][] originalImage = new int[alto][ancho];
+        System.out.println("numeros" + numeros.size());
+        this.pixeles = new int[this.alto][this.ancho];
+        int[][] originalImage = new int[this.alto][this.ancho];
 
         int valorEnElArregloDeNumeros = 0;
-        for ( i = 0; i < alto; i++){
+        for ( i = 0; i < this.alto; i++){
             System.out.print( "fila: "+ i + " ");
-            for ( j = 0; j < ancho; j++){
+            for ( j = 0; j < this.ancho; j++){
                 int numero = originalImage[i][j] = numeros.get(valorEnElArregloDeNumeros);
                 System.out.print(numero + "|");
                 this.pixeles[i][j] = numero;
@@ -166,7 +167,7 @@ public class LeerImagen {
         f.close();
         //this.crear_pmg(originalImage);
         //imprimir_pixeles();
-        //filtros();
+        filtros();
 
 
     }
@@ -186,7 +187,7 @@ public class LeerImagen {
         //int [][] matrizprueba = this.pixeles;
         int iterativo = 0;
         int opcion = 1;
-        int mayorMenor = 1; // buscar el numero mayor o buscar el numero menor. 0 - 1
+        int mayorMenor = 0; // buscar el numero mayor o buscar el numero menor. 0 - 1
 
         if(iterativo == 0)
         {
@@ -201,6 +202,7 @@ public class LeerImagen {
                 FiltradorX nuevoFiltadorX = new FiltradorX(this.pixeles,0,0, micontenedor,
                         mayorMenor);
                 nuevoFiltadorX.filtarIterativoX();
+
             }
             else if( opcion == 2)
             {
@@ -392,6 +394,14 @@ public class LeerImagen {
 
                 }
             }
+        }
+        int [][] mimatriz = micontenedor.getMatrizFinal();
+        for (int i = 0; i < mimatriz.length; i++) {
+            for (int j = 0; j < mimatriz[i].length; j++)
+            {
+                System.out.print(mimatriz[i][j]+ " ");
+            }
+            System.out.println(" ");
         }
         crear_pmg(micontenedor.getMatrizFinal());
     }
