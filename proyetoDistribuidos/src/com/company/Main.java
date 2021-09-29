@@ -29,6 +29,7 @@ public class Main {
 						System.out.print("Opción: ");
 						opcionSubMenuScanner = new Scanner(System.in);
 						opcionSubMenu = opcionSubMenuScanner.nextInt();
+						System.out.println("\n");
 						switch (opcionSubMenu) {
 							case 1:
 								leer.matrizImagen(url, opcionMenu, opcionSubMenu);
@@ -51,10 +52,13 @@ public class Main {
 							default:
 								break;
 						}
+						break;
 					case 2:
 						menu.subOpciones();
+						System.out.print("Opción: ");
 						opcionSubMenuScanner = new Scanner(System.in);
 						opcionSubMenu = opcionSubMenuScanner.nextInt();
+						System.out.println("\n");
 						switch (opcionSubMenu) {
 							case 1:
 								leer.matrizImagen(url, opcionMenu, opcionSubMenu);
@@ -77,10 +81,13 @@ public class Main {
 							default:
 								break;
 						}
+						break;
 					case 3:
 						menu.subOpciones();
+						System.out.print("Opción: ");
 						opcionSubMenuScanner = new Scanner(System.in);
 						opcionSubMenu = opcionSubMenuScanner.nextInt();
+						System.out.println("\n");
 						switch (opcionSubMenu) {
 							case 1:
 								leer.matrizImagen(url, opcionMenu, opcionSubMenu);
@@ -103,10 +110,13 @@ public class Main {
 							default:
 								break;
 						}
+						break;
 					case 4:
 						menu.subOpciones();
+						System.out.print("Opción: ");
 						opcionSubMenuScanner = new Scanner(System.in);
 						opcionSubMenu = opcionSubMenuScanner.nextInt();
+						System.out.println("\n");
 						switch (opcionSubMenu) {
 							case 1:
 								leer.matrizImagen(url, opcionMenu, opcionSubMenu);
@@ -129,6 +139,7 @@ public class Main {
 							default:
 								break;
 						}
+						break;
 					case 5:
 						salir = true;
 						menu.dibujo();
