@@ -8,427 +8,345 @@ import java.util.StringTokenizer;
 
 public class LeerImagen {
 
-    private String nombreArchivo;
-    private int ancho = 0;
-    private int alto = 0;
-    private int blancoAbsoluto;
-    private int[][] pixeles;
-    
-    public LeerImagen(){}
+	private String nombreArchivo;
+	private int ancho = 0;
+	private int alto = 0;
+	private int blancoAbsoluto;
+	private int[][] pixeles;
 
-    public void matrizImagen(String nombreArchivo,int opcionMenu, int opcionSubmenu) throws IOException {
-        this.nombreArchivo = nombreArchivo;
-        File file = new File(this.nombreArchivo);
-        //System.out.println(file.length());
-        final FileInputStream f = new FileInputStream(file);
-        ArrayList<ArrayList<Integer>> lineas = new ArrayList<>();
-        ArrayList<Integer> caja =  new ArrayList<>();
-        //System.out.println(f.available());
-        int chrr;
-        int i = 0;
-        int j = 0;
+	public LeerImagen() {
+	}
 
-        while (f.available() != 0)
-        {
-            //System.out.println("avaible: " + f.available());
-            chrr = f.read();
-            if(chrr != 10)
-            {
-                //System.out.print(chrr +" ");
-                caja.add(chrr);
-            }
-            else
-            {
-               //System.out.println(" linea " + i );
-               caja.add(chrr);
-               lineas.add(caja);
-               caja = new ArrayList<>();
-               i++;
-            }
-            j++;
-        }
+	public void matrizImagen(String nombreArchivo, int opcionMenu, int opcionSubmenu) throws IOException {
+		this.nombreArchivo = nombreArchivo;
+		File file = new File(this.nombreArchivo);
+		// System.out.println(file.length());
+		final FileInputStream f = new FileInputStream(file);
+		ArrayList<ArrayList<Integer>> lineas = new ArrayList<>();
+		ArrayList<Integer> caja = new ArrayList<>();
+		// System.out.println(f.available());
+		int chrr;
+		int i = 0;
+		int j = 0;
 
-        int aux = lineas.size();
-        for (int k = 0; k < caja.size(); k++)
-        {
-            lineas.get(aux - 1).add(caja.get(k));
-        }
-        //System.out.println(lineas.size());
-        //System.out.println(lineas.get(lineas.size()-1).size());
-        //System.out.println( " ------ ");
+		while (f.available() != 0) {
+			// System.out.println("avaible: " + f.available());
+			chrr = f.read();
+			if (chrr != 10) {
+				// System.out.print(chrr +" ");
+				caja.add(chrr);
+			} else {
+				// System.out.println(" linea " + i );
+				caja.add(chrr);
+				lineas.add(caja);
+				caja = new ArrayList<>();
+				i++;
+			}
+			j++;
+		}
 
+		int aux = lineas.size();
+		for (int k = 0; k < caja.size(); k++) {
+			lineas.get(aux - 1).add(caja.get(k));
+		}
+		// System.out.println(lineas.size());
+		// System.out.println(lineas.get(lineas.size()-1).size());
+		// System.out.println( " ------ ");
 
-        char charAux;
-        int ancho = 0;
-        int alto = 0;
-        ArrayList<Integer> numeros = new ArrayList<>();
-        for (int k = 0; k < lineas.size(); k++)
-        {
-            StringBuffer st = new StringBuffer();
-            ArrayList<Integer> cajaAuxContenedor = lineas.get(k);
-            System.out.println("lagor :" + cajaAuxContenedor.size());
-            if( k ==  0)
-            {
-                for (int l = 0; l < cajaAuxContenedor.size(); l++)
-                {
-                    int valorAuxiliar =  cajaAuxContenedor.get(l);
-                    charAux = (char) valorAuxiliar;
-                    st.append(charAux);
-                }
-                if(!st.toString().contains("P5")){
-                    System.out.println("no es formato p5");
-                }
-                else
-                {
-                    System.out.println(st.toString());
-                }
-            }
-            else if(  k == 1 )
-            {
-                for (int l = 0; l < cajaAuxContenedor.size(); l++)
-                {
-                    int valorAuxiliar =  cajaAuxContenedor.get(l);
-                    charAux = (char) valorAuxiliar;
-                    st.append(charAux);
-                }
-                StringTokenizer stken = new StringTokenizer(st.toString());
-                this.ancho = Integer.parseInt(stken.nextToken());
-                this.alto = Integer.parseInt(stken.nextToken());
-                //System.out.println("ancho :" + ancho + ", alto:"+ alto);
-            }
-            else if(k == 2)
-            {
-                for (int l = 0; l < cajaAuxContenedor.size(); l++)
-                {
-                    int valorAuxiliar =  cajaAuxContenedor.get(l);
-                    charAux = (char) valorAuxiliar;
-                    //sfsdfdf
-                    st.append(charAux);
-                }
-                StringTokenizer stken = new StringTokenizer(st.toString());
-                String blancoContenedor = stken.nextToken();
-                this.blancoAbsoluto = Integer.parseInt(blancoContenedor);
+		char charAux;
+		int ancho = 0;
+		int alto = 0;
+		ArrayList<Integer> numeros = new ArrayList<>();
+		for (int k = 0; k < lineas.size(); k++) {
+			StringBuffer st = new StringBuffer();
+			ArrayList<Integer> cajaAuxContenedor = lineas.get(k);
+			System.out.println("lagor :" + cajaAuxContenedor.size());
+			if (k == 0) {
+				for (int l = 0; l < cajaAuxContenedor.size(); l++) {
+					int valorAuxiliar = cajaAuxContenedor.get(l);
+					charAux = (char) valorAuxiliar;
+					st.append(charAux);
+				}
+				if (!st.toString().contains("P5")) {
+					System.out.println("no es formato p5");
+				} else {
+					System.out.println(st.toString());
+				}
+			} else if (k == 1) {
+				for (int l = 0; l < cajaAuxContenedor.size(); l++) {
+					int valorAuxiliar = cajaAuxContenedor.get(l);
+					charAux = (char) valorAuxiliar;
+					st.append(charAux);
+				}
+				StringTokenizer stken = new StringTokenizer(st.toString());
+				this.ancho = Integer.parseInt(stken.nextToken());
+				this.alto = Integer.parseInt(stken.nextToken());
+				// System.out.println("ancho :" + ancho + ", alto:"+ alto);
+			} else if (k == 2) {
+				for (int l = 0; l < cajaAuxContenedor.size(); l++) {
+					int valorAuxiliar = cajaAuxContenedor.get(l);
+					charAux = (char) valorAuxiliar;
+					// sfsdfdf
+					st.append(charAux);
+				}
+				StringTokenizer stken = new StringTokenizer(st.toString());
+				String blancoContenedor = stken.nextToken();
+				this.blancoAbsoluto = Integer.parseInt(blancoContenedor);
 
-            }
-            else
-            {
-                for (int l = 0; l < cajaAuxContenedor.size(); l++) {
-                    numeros.add(cajaAuxContenedor.get(l));
-                }
-            }
-        }
-        //System.out.println("numeros" + numeros.size());
-        this.pixeles = new int[this.alto][this.ancho];
-        int[][] originalImage = new int[this.alto][this.ancho];
+			} else {
+				for (int l = 0; l < cajaAuxContenedor.size(); l++) {
+					numeros.add(cajaAuxContenedor.get(l));
+				}
+			}
+		}
+		// System.out.println("numeros" + numeros.size());
+		this.pixeles = new int[this.alto][this.ancho];
+		int[][] originalImage = new int[this.alto][this.ancho];
 
-        int valorEnElArregloDeNumeros = 0;
-        for ( i = 0; i < this.alto; i++){
+		int valorEnElArregloDeNumeros = 0;
+		for (i = 0; i < this.alto; i++) {
 
-            for ( j = 0; j < this.ancho; j++){
-                int numero = originalImage[i][j] = numeros.get(valorEnElArregloDeNumeros);
+			for (j = 0; j < this.ancho; j++) {
+				int numero = originalImage[i][j] = numeros.get(valorEnElArregloDeNumeros);
 
-                this.pixeles[i][j] = numero;
-                valorEnElArregloDeNumeros++;
-            }
+				this.pixeles[i][j] = numero;
+				valorEnElArregloDeNumeros++;
+			}
 
-        }
+		}
 
-        f.close();
-        filtros(opcionMenu,opcionSubmenu);
+		f.close();
+		filtros(opcionMenu, opcionSubmenu);
 
+	}
 
-    }
+	public void filtros(int opcionMenu, int opcionSubmenu) {
+		int iterativo = 0; // 0 es secuencial - 1 es paralelo
+		int mayorMenor = 0; // buscar el numero mayor o buscar el numero menor. 0 - 1
+		int opcion = opcionSubmenu;
 
-    public void filtros(int opcionMenu,int opcionSubmenu){
-        int iterativo = 0; // 0 es secuencial - 1 es paralelo
-        int mayorMenor = 0; // buscar el numero mayor o buscar el numero menor. 0 - 1
-        int opcion = opcionSubmenu;
+		if (opcionMenu == 1 || opcionMenu == 3) {
+			iterativo = 0;
+			if (opcionMenu == 1) {
+				mayorMenor = 0; // REVISAR ES DILATACION
+			} else {
+				mayorMenor = 1; // REVISAR ES EROSION
+			}
+		} else {
+			iterativo = 1;
+			if (opcionMenu == 2) {
+				mayorMenor = 0; // REVISAR DILATACION
+			} else {
+				mayorMenor = 1; // REVISAR EROSION
+			}
+		}
+		System.out.println("opcion Menu:" + opcionMenu);
+		System.out.println("opcion SubMenu:" + opcionSubmenu);
+		// FALTA DECIR QUE SI OPCION MENU ES X COSA ENTONCES LOS VALORES DE ITERATIVO Y
+		// MAYORMENOR CAMBIAN. ADEMAS FALTA SABER OPCION SUBMENU PARA SABER QUE FILTRO
+		// USAR.
 
-        if(opcionMenu == 1 || opcionMenu == 3){
-            iterativo = 0;
-            if(opcionMenu == 1){
-                mayorMenor = 0; // REVISAR ES DILATACION
-            }else{
-                mayorMenor = 1; // REVISAR ES EROSION
-            }
-        }else{
-            iterativo = 1;
-            if(opcionMenu == 2){
-                mayorMenor = 0; // REVISAR DILATACION
-            }else{
-                mayorMenor = 1; // REVISAR EROSION
-            }
-        }
-        System.out.println("opcion Menu:"+opcionMenu);
-        System.out.println("opcion SubMenu:"+opcionSubmenu);
-        // FALTA DECIR QUE SI OPCION MENU ES X COSA ENTONCES LOS VALORES DE ITERATIVO Y MAYORMENOR CAMBIAN. ADEMAS FALTA SABER OPCION SUBMENU PARA SABER QUE FILTRO USAR.
+		int[][] matriz = new int[alto][ancho]; // se modifica el tamaño con el tamaño de la matriz pasada por
+												// parametros.
+		Contenedor micontenedor = new Contenedor(matriz);
+		// int [][] matrizprueba = this.pixeles;
 
-        int [][] matriz= new int [alto][ancho]; // se modifica el tamaño con el tamaño de la matriz pasada por parametros.
-        Contenedor micontenedor = new Contenedor(matriz);
-        //int [][] matrizprueba = this.pixeles;
+		if (iterativo == 0) {
 
+			System.out.println("Secuencial!!");
 
-        if(iterativo == 0)
-        {
+			if (opcion == 1) {
+				System.out.println("OPCION 1 - Filtrador X");
+				FiltradorX nuevoFiltadorX = new FiltradorX(this.pixeles, 0, 0, micontenedor, mayorMenor);
+				nuevoFiltadorX.filtarIterativoX();
+			} else if (opcion == 2) {
 
-            System.out.println("Secuencial!!");
+				System.out.println("OPCION 2 - Filtrador Mas");
+				FiltradorMas nuevoFiltrador = new FiltradorMas(this.pixeles, 0, 0, micontenedor, mayorMenor);
+				nuevoFiltrador.filtarIterativoMas();
 
-            if (opcion == 1)
-            {
-                System.out.println("OPCION 1 - Filtrador X");
-                FiltradorX nuevoFiltadorX = new FiltradorX(this.pixeles,0,0, micontenedor,
-                        mayorMenor);
-                nuevoFiltadorX.filtarIterativoX();
-            }
-            else if (opcion == 2 )
-            {
+			} else if (opcion == 3) {
 
-                System.out.println("OPCION 2 - Filtrador Mas");
-                FiltradorMas nuevoFiltrador = new FiltradorMas(this.pixeles,0,0,
-                        micontenedor, mayorMenor);
-                nuevoFiltrador.filtarIterativoMas();
+				System.out.println("OPCION 3 - Filtrador Pilar");
+				FiltradorPilar nuevoFiltadorPolar = new FiltradorPilar(this.pixeles, 0, 0, micontenedor, mayorMenor);
+				nuevoFiltadorPolar.filtarIterativoPilar();
+			} else if (opcion == 4) {
 
-            }
-            else if( opcion == 3)
-            {
+				System.out.println("OPCION 4 - Filtrador Horizontal");
+				FiltradorHorizontal nuevoFiltadorPolar = new FiltradorHorizontal(this.pixeles, 0, 0, micontenedor,
+						mayorMenor);
+				nuevoFiltadorPolar.filtarIterativoHorizontal();
+			} else if (opcion == 5) {
+				System.out.println("OPCION 5 - Filtrador Esquina Inferior");
+				FiltradorEsquinaInferior nuevoFiltadorEsquinaInferior = new FiltradorEsquinaInferior(this.pixeles, 0, 0,
+						micontenedor, mayorMenor);
+				nuevoFiltadorEsquinaInferior.filtarIterativoEsquinaInferior();
+			} else if (opcion == 6) {
 
-                System.out.println("OPCION 3 - Filtrador Pilar");
-                FiltradorPilar nuevoFiltadorPolar = new FiltradorPilar(this.pixeles,0,0,
-                        micontenedor, mayorMenor);
-                nuevoFiltadorPolar.filtarIterativoPilar();
-            }
-            else if( opcion == 4)
-            {
+				System.out.println("OPCION 6 - Filtrador Esquina Superior");
 
-                System.out.println("OPCION 4 - Filtrador Horizontal");
-                FiltradorHorizontal nuevoFiltadorPolar = new
-                        FiltradorHorizontal(this.pixeles,0,0, micontenedor, mayorMenor);
-                nuevoFiltadorPolar.filtarIterativoHorizontal();
-            }
-            else if(opcion == 5)
-            {
-                System.out.println("OPCION 5 - Filtrador Esquina Inferior");
-                FiltradorEsquinaInferior nuevoFiltadorEsquinaInferior = new
-                        FiltradorEsquinaInferior(this.pixeles,0,0, micontenedor, mayorMenor);
-                nuevoFiltadorEsquinaInferior.filtarIterativoEsquinaInferior();
-            }
-            else if(opcion == 6)
-            {
+				FiltadorEsquinaSuperior nuevoFiltadorEsquinaSuperior = new FiltadorEsquinaSuperior(this.pixeles, 0, 0,
+						micontenedor, mayorMenor);
+				nuevoFiltadorEsquinaSuperior.filtarIterativoESquinaSuperior();
+			}
 
-                System.out.println("OPCION 6 - Filtrador Esquina Superior");
+		} else {
+			System.out.println("PARALELO");
+			ArrayList<Thread> hilos = new ArrayList<>();
+			if (opcion == 1) {
+				System.out.println("OPCION 1 - Filtrador X");
+				for (int i = 0; i < 4; i++) {
+					FiltradorX nuevoFiltrador = new FiltradorX(this.pixeles, i, i, micontenedor, mayorMenor);
+					Thread nuevoHilo = new Thread(nuevoFiltrador);
+					hilos.add(nuevoHilo);
+				}
 
-                FiltadorEsquinaSuperior nuevoFiltadorEsquinaSuperior = new
-                        FiltadorEsquinaSuperior(this.pixeles,0,0, micontenedor, mayorMenor);
-                nuevoFiltadorEsquinaSuperior.filtarIterativoESquinaSuperior();
-            }
+				for (Thread a : hilos) {
+					a.start();
+				}
 
-        }
-        else
-        {
-            System.out.println("PARALELO");
-            ArrayList<Thread> hilos = new ArrayList<>();
-            if (opcion == 1)
-            {
-                System.out.println("OPCION 1 - Filtrador X");
-                for (int i = 0; i < 4; i++)
-                {
-                    FiltradorX nuevoFiltrador = new FiltradorX(this.pixeles,i,i, micontenedor,
-                            mayorMenor);
-                    Thread nuevoHilo = new Thread(nuevoFiltrador);
-                    hilos.add(nuevoHilo);
-                }
+				for (Thread a : hilos) {
+					try {
+						a.join();
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
 
-                for (Thread a : hilos)
-                {
-                    a.start();
-                }
+				}
+			} else if (opcion == 2) {
+				System.out.println("OPCION 2 - Filtrador Mas");
+				for (int i = 0; i < 4; i++) {
+					FiltradorMas nuevoFiltrador = new FiltradorMas(this.pixeles, i, i, micontenedor, mayorMenor);
+					Thread nuevoHilo = new Thread(nuevoFiltrador);
+					hilos.add(nuevoHilo);
+				}
 
-                for (Thread a: hilos)
-                {
-                    try {
-                        a.join();
-                    }
-                    catch (InterruptedException e )
-                    {
-                        e.printStackTrace();
-                    }
+				for (Thread a : hilos) {
+					a.start();
+				}
 
-                }
-            }
-            else if(opcion == 2)
-            {
-                System.out.println("OPCION 2 - Filtrador Mas");
-                for (int i = 0; i < 4; i++)
-                {
-                    FiltradorMas nuevoFiltrador = new FiltradorMas(this.pixeles,i,i,
-                            micontenedor, mayorMenor);
-                    Thread nuevoHilo = new Thread(nuevoFiltrador);
-                    hilos.add(nuevoHilo);
-                }
+				for (Thread a : hilos) {
+					try {
+						a.join();
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
 
-                for (Thread a : hilos)
-                {
-                    a.start();
-                }
+				}
+			} else if (opcion == 3) {
+				System.out.println("OPCION 3 - Filtrador Pilar");
+				for (int i = 0; i < 4; i++) {
+					FiltradorPilar nuevoFiltrador = new FiltradorPilar(this.pixeles, i, i, micontenedor, mayorMenor);
+					Thread nuevoHilo = new Thread(nuevoFiltrador);
+					hilos.add(nuevoHilo);
+				}
 
-                for (Thread a: hilos)
-                {
-                    try {
-                        a.join();
-                    }
-                    catch (InterruptedException e )
-                    {
-                        e.printStackTrace();
-                    }
+				for (Thread a : hilos) {
+					a.start();
+				}
 
-                }
-            }
-            else if(opcion == 3)
-            {
-                System.out.println("OPCION 3 - Filtrador Pilar");
-                for (int i = 0; i < 4; i++)
-                {
-                    FiltradorPilar nuevoFiltrador = new FiltradorPilar(this.pixeles,i,i,
-                            micontenedor, mayorMenor);
-                    Thread nuevoHilo = new Thread(nuevoFiltrador);
-                    hilos.add(nuevoHilo);
-                }
+				for (Thread a : hilos) {
+					try {
+						a.join();
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
 
-                for (Thread a : hilos)
-                {
-                    a.start();
-                }
+				}
+			} else if (opcion == 4) {
 
-                for (Thread a: hilos)
-                {
-                    try {
-                        a.join();
-                    }
-                    catch (InterruptedException e )
-                    {
-                        e.printStackTrace();
-                    }
+				System.out.println("OPCION 4 - Filtrador Horizontal");
+				for (int i = 0; i < 4; i++) {
+					FiltradorHorizontal nuevoFiltrador = new FiltradorHorizontal(this.pixeles, i, i, micontenedor,
+							mayorMenor);
+					Thread nuevoHilo = new Thread(nuevoFiltrador);
+					hilos.add(nuevoHilo);
+				}
 
-                }
-            }
-            else if(opcion == 4)
-            {
+				for (Thread a : hilos) {
+					a.start();
+				}
 
+				for (Thread a : hilos) {
+					try {
+						a.join();
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
 
-                System.out.println("OPCION 4 - Filtrador Horizontal");
-                for (int i = 0; i < 4; i++)
-                {
-                    FiltradorHorizontal nuevoFiltrador = new FiltradorHorizontal(this.pixeles,i,i, micontenedor, mayorMenor);
-                    Thread nuevoHilo = new Thread(nuevoFiltrador);
-                    hilos.add(nuevoHilo);
-                }
+				}
+			} else if (opcion == 5) {
 
-                for (Thread a : hilos)
-                {
-                    a.start();
-                }
+				System.out.println("OPCION 5 - Filtrador Esquina Inferior");
+				for (int i = 0; i < 4; i++) {
+					FiltradorEsquinaInferior nuevoFiltrador = new FiltradorEsquinaInferior(this.pixeles, i, i,
+							micontenedor, mayorMenor);
+					Thread nuevoHilo = new Thread(nuevoFiltrador);
+					hilos.add(nuevoHilo);
+				}
 
-                for (Thread a: hilos)
-                {
-                    try {
-                        a.join();
-                    }
-                    catch (InterruptedException e )
-                    {
-                        e.printStackTrace();
-                    }
+				for (Thread a : hilos) {
+					a.start();
+				}
 
-                }
-            }
-            else if(opcion == 5)
-            {
+				for (Thread a : hilos) {
+					try {
+						a.join();
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
 
+				}
+			} else if (opcion == 6) {
 
-                System.out.println("OPCION 5 - Filtrador Esquina Inferior");
-                for (int i = 0; i < 4; i++)
-                {
-                    FiltradorEsquinaInferior nuevoFiltrador = new
-                            FiltradorEsquinaInferior(this.pixeles,i,i, micontenedor, mayorMenor);
-                    Thread nuevoHilo = new Thread(nuevoFiltrador);
-                    hilos.add(nuevoHilo);
-                }
+				System.out.println("OPCION 6 - Filtrador Esquina Superior");
+				for (int i = 0; i < 4; i++) {
+					FiltadorEsquinaSuperior nuevoFiltrador = new FiltadorEsquinaSuperior(this.pixeles, i, i,
+							micontenedor, mayorMenor);
+					Thread nuevoHilo = new Thread(nuevoFiltrador);
+					hilos.add(nuevoHilo);
+				}
 
-                for (Thread a : hilos)
-                {
-                    a.start();
-                }
+				for (Thread a : hilos) {
+					a.start();
+				}
 
-                for (Thread a: hilos)
-                {
-                    try {
-                        a.join();
-                    }
-                    catch (InterruptedException e )
-                    {
-                        e.printStackTrace();
-                    }
+				for (Thread a : hilos) {
+					try {
+						a.join();
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
 
-                }
-            }
-            else if(opcion == 6)
-            {
+				}
+			}
+		}
 
+		crear_pmg(micontenedor.getMatrizFinal());
+	}
 
-                System.out.println("OPCION 6 - Filtrador Esquina Superior");
-                for (int i = 0; i < 4; i++)
-                {
-                    FiltadorEsquinaSuperior nuevoFiltrador = new
-                            FiltadorEsquinaSuperior(this.pixeles,i,i, micontenedor, mayorMenor);
-                    Thread nuevoHilo = new Thread(nuevoFiltrador);
-                    hilos.add(nuevoHilo);
-                }
+	public void crear_pmg(int[][] matriz) {
 
-                for (Thread a : hilos)
-                {
-                    a.start();
-                }
+		try {
+			System.out.println("Escribe el nombre del archivo de salida.");
+			Scanner scanner = new Scanner(System.in);
+			String nombreSalida = scanner.nextLine();
 
-                for (Thread a: hilos)
-                {
-                    try {
-                        a.join();
-                    }
-                    catch (InterruptedException e )
-                    {
-                        e.printStackTrace();
-                    }
-
-                }
-            }
-        }
-
-        crear_pmg(micontenedor.getMatrizFinal());
-    }
-
-    public void crear_pmg(int[][] matriz){
-
-        try{
-            System.out.println("Escribe el nombre del archivo de salida.");
-            Scanner scanner = new Scanner(System.in);
-            String nombreSalida = scanner.nextLine();
-
-            FileWriter fw = new FileWriter(nombreSalida+".pgm");
-            BufferedWriter salida = new BufferedWriter(fw);
-            //System.out.println(this.blancoAbsoluto);
-            salida.write("P2\n# CREATOR: XV Version 3.10a  Rev: 08/26/21\n"+this.ancho+" "+this.alto+"\n"+this.blancoAbsoluto+"\n");
-            for (int i = 0; i < this.alto; i++) {
-                for (int j = 0; j < this.ancho; j++) {
-                    salida.write(matriz[i][j]+" ");
-                }
-            }
-            System.out.println("Se ha creado con exito el archivo de prueba");
-            salida.close();
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-    }
-
-
-
+			FileWriter fw = new FileWriter(nombreSalida + ".pgm");
+			BufferedWriter salida = new BufferedWriter(fw);
+			// System.out.println(this.blancoAbsoluto);
+			salida.write("P2\n# CREATOR: XV Version 3.10a  Rev: 08/26/21\n" + this.ancho + " " + this.alto + "\n"
+					+ this.blancoAbsoluto + "\n");
+			for (int i = 0; i < this.alto; i++) {
+				for (int j = 0; j < this.ancho; j++) {
+					salida.write(matriz[i][j] + " ");
+				}
+			}
+			System.out.println("Se ha creado con exito el archivo de prueba");
+			salida.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
 }

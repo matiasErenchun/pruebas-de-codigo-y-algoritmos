@@ -5,17 +5,8 @@
 			"name": "Launch Main",
 			"request": "launch",
 			"mainClass": "com.company.Main",
-			"projectName": "proyetoDistribuidos_e0841421"
+			"projectName": "proyetoDistribuidos_e0841421",
+			"args": "pruebafinalfinal.pgm"
 		},
-		{
-			"name": "GDScript",
-			"type": "godot",
-			"request": "launch",
-			"project": "",
-			"port": 6007,
-			"address": "127.0.0.1",
-			"launch_game_instance": true,
-			"launch_scene": false
-		}
 	]
 }
