@@ -14,10 +14,11 @@ public class Main {
 
 	public static void main(String[] args) throws IOException {
 		Scanner scanner = new Scanner(System.in);
-		if (args.length >= 1) {
+		System.out.println(args.length);
+		if (args.length >= 0) {
 			try {
 				// Recibir la url por consola y el nombre del archivo? Analizar e implementar.
-				String url = "C:\\Users\\vichoste\\source\\repos\\pruebas-de-codigo-y-algoritmos\\proyetoDistribuidos\\src\\com\\company\\pruebafinalfinal.pgm";
+				String url = "E:\\repoGit\\pruebas-de-codigo-y-algoritmos\\proyetoDistribuidos\\src\\com\\company\\prueba5.pgm";
 				LeerImagen leer = new LeerImagen();
 				int opcionMenu = 0;
 				int opcionSubmenu = 0;
