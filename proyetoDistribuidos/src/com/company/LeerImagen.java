@@ -290,14 +290,14 @@ public class LeerImagen {
 			System.out.println("\n");
 			FileWriter fw = new FileWriter(nombreSalida + ".pgm");
 			BufferedWriter salida = new BufferedWriter(fw);
+			salida.write("P2\n# CREATOR: XV Version 3.10a  Rev: 08/26/21\n" + this.ancho + " " + this.alto + "\n"
+					+ this.blancoAbsoluto + "\n");
 			// System.out.println(this.blancoAbsoluto);
 			for (int i = 0; i < this.alto; i++) {
 				for (int j = 0; j < this.ancho; j++) {
 					salida.write(matriz[i][j] + " ");
 				}
 			}
-			salida.write("P2\n# CREATOR: XV Version 3.10a  Rev: 08/26/21\n" + this.ancho + " " + this.alto + "\n"
-					+ this.blancoAbsoluto + "\n");
 			System.out.println("¡Se ha creado el archivo de salida con éxito!");
 			salida.close();
 		} catch (Exception e) {
