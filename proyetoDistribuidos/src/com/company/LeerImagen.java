@@ -278,7 +278,7 @@ public class LeerImagen {
 			}
 		}
 		Long tiempoFin = System.nanoTime();
-		System.out.println("Tiempo [ms]: " + (tiempoFin - tiempoInicio));
+		System.out.println("Tiempo [ns]: " + (tiempoFin - tiempoInicio));
 		crear_pmg(micontenedor.getMatrizFinal());
 	}
 
@@ -296,6 +296,8 @@ public class LeerImagen {
 					salida.write(matriz[i][j] + " ");
 				}
 			}
+			salida.write("P2\n# CREATOR: XV Version 3.10a  Rev: 08/26/21\n" + this.ancho + " " + this.alto + "\n"
+					+ this.blancoAbsoluto + "\n");
 			System.out.println("¡Se ha creado el archivo de salida con éxito!");
 			salida.close();
 		} catch (Exception e) {
