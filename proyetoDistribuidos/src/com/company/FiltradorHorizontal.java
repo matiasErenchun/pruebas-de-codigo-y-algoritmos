@@ -1,8 +1,5 @@
 package com.company;
 
-import java.time.Duration;
-import java.time.Instant;
-
 public class FiltradorHorizontal extends Filtrador implements Runnable {
 
 	public FiltradorHorizontal(int[][] matrizBase, int id, int salto, Contenedor miContendor, int mayorOMenor) {

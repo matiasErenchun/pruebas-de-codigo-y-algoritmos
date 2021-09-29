@@ -1,8 +1,5 @@
 package com.company;
 
-import java.time.Duration;
-import java.time.Instant;
-
 public class FiltradorX extends Filtrador implements Runnable {
 	public FiltradorX(int[][] matrizBase, int id, int salto, Contenedor contenedor, int mayorMenor) {
 		super(matrizBase, id, salto, contenedor, mayorMenor);
