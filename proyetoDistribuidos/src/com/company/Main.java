@@ -11,7 +11,7 @@ import java.awt.image.BufferedImage;
 public class Main {
 
 	int[][] matriz_pixeles;
-1
+
 	public static void main(String[] args) throws IOException {
 		Scanner scanner = new Scanner(System.in);
 		try {
