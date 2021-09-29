@@ -30,7 +30,6 @@ public class FiltadorEsquinaSuperior extends Filtrador implements Runnable {
 
 	@Override
 	public void run() {
-		Instant start = Instant.now();
 		for (this.id = 0; this.id < this.matrizBase.length; this.id++) {
 			for (int i = 0; i < this.matrizBase[this.id].length; i++) {
 				int valor;
@@ -46,8 +45,6 @@ public class FiltadorEsquinaSuperior extends Filtrador implements Runnable {
 				this.miContendor.setCoordenadaMatrizFinal(this.id, i, valor);
 			}
 		}
-		Instant finish = Instant.now();
-		System.out.println("Tiempo: " + Duration.between(start, finish).toNanos() + "[ns]");
 	}
 
 	private boolean validarFiltroEsquinaSuperior(int id, int i) {

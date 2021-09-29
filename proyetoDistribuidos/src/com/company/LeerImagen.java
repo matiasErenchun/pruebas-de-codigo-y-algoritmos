@@ -20,31 +20,29 @@ public class LeerImagen {
 	public void matrizImagen(String nombreArchivo, int opcionMenu, int opcionSubmenu) throws IOException {
 		this.nombreArchivo = nombreArchivo;
 		File file = new File(this.nombreArchivo);
-		//System.out.println(file.length());
+		// System.out.println(file.length());
 		final FileInputStream f = new FileInputStream(file);
 		ArrayList<ArrayList<Integer>> lineas = new ArrayList<>();
 		ArrayList<Integer> caja = new ArrayList<>();
-		//System.out.println(f.available());
+		// System.out.println(f.available());
 		int chrr;
 		int i = 0;
 		int j = 0;
 
 		while (f.available() != 0) {
-			//System.out.println("avaible: " + f.available());
+			// System.out.println("avaible: " + f.available());
 			chrr = f.read();
 			if (chrr != 10) {
-				 //System.out.print(chrr +" ");
+				// System.out.print(chrr +" ");
 				caja.add(chrr);
 			} else {
-				if(lineas.size()<= 3)
-				{
-					//System.out.println(" linea " + i );
+				if (lineas.size() <= 3) {
+					// System.out.println(" linea " + i );
 					caja.add(chrr);
 					lineas.add(caja);
 					caja = new ArrayList<>();
 					i++;
-				}else
-				{
+				} else {
 					caja.add(chrr);
 				}
 			}
@@ -52,18 +50,18 @@ public class LeerImagen {
 		}
 
 		lineas.add(caja);
-		//System.out.println(lineas.size());
-		//System.out.println(lineas.get(lineas.size()-1).size());
-		//System.out.println( " ------ ");
+		// System.out.println(lineas.size());
+		// System.out.println(lineas.get(lineas.size()-1).size());
+		// System.out.println( " ------ ");
 
 		char charAux;
-		//System.out.println("largo lineas" + lineas.size());
+		// System.out.println("largo lineas" + lineas.size());
 		ArrayList<Integer> numeros = new ArrayList<>();
 		for (int k = 0; k < lineas.size(); k++) {
-			//System.out.println(" k:"+ k);
+			// System.out.println(" k:"+ k);
 			StringBuffer st = new StringBuffer();
 			ArrayList<Integer> cajaAuxContenedor = lineas.get(k);
-			//System.out.println("lagor :" + cajaAuxContenedor.size());
+			// System.out.println("lagor :" + cajaAuxContenedor.size());
 			if (k == 0) {
 				for (int l = 0; l < cajaAuxContenedor.size(); l++) {
 					int valorAuxiliar = cajaAuxContenedor.get(l);
@@ -81,11 +79,11 @@ public class LeerImagen {
 					charAux = (char) valorAuxiliar;
 					st.append(charAux);
 				}
-				//System.out.println("st" + st.toString());
+				// System.out.println("st" + st.toString());
 				StringTokenizer stken = new StringTokenizer(st.toString());
 				this.ancho = Integer.parseInt(stken.nextToken());
 				this.alto = Integer.parseInt(stken.nextToken());
-				//System.out.println("ancho :" + this.ancho + ", alto:"+ this.alto);
+				// System.out.println("ancho :" + this.ancho + ", alto:"+ this.alto);
 			} else if (k == 2) {
 				for (int l = 0; l < cajaAuxContenedor.size(); l++) {
 					int valorAuxiliar = cajaAuxContenedor.get(l);
@@ -98,13 +96,13 @@ public class LeerImagen {
 				this.blancoAbsoluto = Integer.parseInt(blancoContenedor);
 
 			} else {
-				//System.out.println("largo caja" + cajaAuxContenedor.size());
+				// System.out.println("largo caja" + cajaAuxContenedor.size());
 				for (int l = 0; l < cajaAuxContenedor.size(); l++) {
 					numeros.add(cajaAuxContenedor.get(l));
 				}
 			}
 		}
-		//System.out.println("numeros" + numeros.size());
+		// System.out.println("numeros" + numeros.size());
 		this.pixeles = new int[this.alto][this.ancho];
 		int[][] originalImage = new int[this.alto][this.ancho];
 
@@ -327,9 +325,9 @@ public class LeerImagen {
 			}
 		}
 		Long tiempoFin = System.nanoTime();
-		System.out.println("tiempoInicio:" +tiempoInicio);
-		System.out.println("tiempoFin:" +tiempoFin);
-		System.out.println("tiempo total:" + (tiempoFin-tiempoInicio));
+		System.out.println("tiempoInicio:" + tiempoInicio);
+		System.out.println("tiempoFin:" + tiempoFin);
+		System.out.println("tiempo total:" + (tiempoFin - tiempoInicio));
 
 		crear_pmg(micontenedor.getMatrizFinal());
 	}

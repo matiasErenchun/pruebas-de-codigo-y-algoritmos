@@ -10,7 +10,6 @@ public class FiltradorHorizontal extends Filtrador implements Runnable {
 	}
 
 	public void filtarIterativoHorizontal() {
-		Instant start = Instant.now();
 		for (int id = 0; id < this.matrizBase.length; id++) {
 			for (int i = 0; i < this.matrizBase[id].length; i++) {
 				int valor;
@@ -27,8 +26,6 @@ public class FiltradorHorizontal extends Filtrador implements Runnable {
 				this.miContendor.setCoordenadaMatrizFinal(id, i, valor);
 			}
 		}
-		Instant finish = Instant.now();
-		System.out.println("Tiempo: " + Duration.between(start, finish).toNanos() + "[ns]");
 	}
 
 	@Override
