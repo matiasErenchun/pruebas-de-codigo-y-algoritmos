@@ -153,7 +153,7 @@ public class LeerImagen {
         int [][] matriz= new int [alto][ancho]; // se modifica el tamaño con el tamaño de la matriz pasada por parametros.
         Contenedor micontenedor = new Contenedor(matriz);
         //int [][] matrizprueba = this.pixeles;
-        int iterativo = 0;
+        int iterativo = 1;
         int opcion = 5;
         int mayorMenor = 0; // buscar el numero mayor o buscar el numero menor. 0 - 1
 
