@@ -155,7 +155,7 @@ public class LeerImagen {
 												// parametros.
 		Contenedor micontenedor = new Contenedor(matriz);
 		// int [][] matrizprueba = this.pixeles;
-
+		Long tiempoInicio = System.nanoTime();
 		if (iterativo == 0) {
 
 			System.out.println("Secuencial!!");
@@ -326,6 +326,10 @@ public class LeerImagen {
 				}
 			}
 		}
+		Long tiempoFin = System.nanoTime();
+		System.out.println("tiempoInicio:" +tiempoInicio);
+		System.out.println("tiempoFin:" +tiempoFin);
+		System.out.println("tiempo total:" + (tiempoFin-tiempoInicio));
 
 		crear_pmg(micontenedor.getMatrizFinal());
 	}
