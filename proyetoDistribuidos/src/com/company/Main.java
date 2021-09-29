@@ -14,6 +14,11 @@ public class Main {
 
 	public static void main(String[] args) throws IOException {
 		try {
+			// Recibir la url por consola y el nombre del archivo? Analizar e implementar.
+			String url = "C:\\Users\\felip\\Documents\\GitHub\\pruebas-de-codigo-y-algoritmos\\proyetoDistribuidos\\src\\com\\company\\";
+			LeerImagen leer = new LeerImagen();
+			int opcionMenu = 0;
+			int opcionSubmenu = 0;
 			boolean salir = false;
 			Menu menu = new Menu();
 			Scanner scanner = new Scanner(System.in);
@@ -21,55 +26,194 @@ public class Main {
 			do {
 				menu.opciones();
 				System.out.print("Opción: ");
-				int opcion = scanner.nextInt();
+				opcionMenu = scanner.nextInt();
 				System.out.println("\n");
-				switch (opcion) {
+				switch (opcionMenu) {
 					case 1:
 						System.out.println("Has seleccionado la opcion dilatación secuencial");
+						menu.subOpciones();
+						System.out.print("Opcion: ");
+						opcionSubmenu = scanner.nextInt();
+						switch(opcionSubmenu){
+							case 1:
+								System.out.println("Has seleccionado la opcion de Filtro X");
+								leer.matrizImagen(
+										url+"pruebafinalfinal.pgm",
+										opcionMenu,opcionSubmenu);
+								break;
+							case 2:
+								System.out.println("Has seleccionado la opcion de Filtro +");
+								leer.matrizImagen(
+										"pruebafinalfinal.pgm",
+										opcionMenu,opcionSubmenu);
+								break;
+							case 3:
+								System.out.println("Has seleccionado la opcion de Filtro Pilar");
+								leer.matrizImagen(
+										url+"pruebafinalfinal.pgm",
+										opcionMenu,opcionSubmenu);
+								break;
+							case 4:
+								System.out.println("Has seleccionado la opcion de Filtro Horizontal");
+								leer.matrizImagen(
+										url+"pruebafinalfinal.pgm",
+										opcionMenu,opcionSubmenu);
+							case 5:
+								System.out.println("Has seleccionado la opcion de Filtro Esquina Inferior");
+										leer.matrizImagen(
+												url+"pruebafinalfinal.pgm",
+												opcionMenu,opcionSubmenu);
+								break;
+							case 6:
+								System.out.println("Has seleccionado la opcion de Filtro Esquina Superior");
+								leer.matrizImagen(
+										url+"pruebafinalfinal.pgm",
+										opcionMenu,opcionSubmenu);
+								break;
+							default:
+								System.out.println("Solo números entre 1 y 6");
+						}
 						break;
 					case 2:
 						System.out.println("Has seleccionado la opcion dilatación paralela");
+						menu.subOpciones();
+						opcionSubmenu = scanner.nextInt();
+						switch(opcionSubmenu){
+							case 1:
+								System.out.println("Has seleccionado la opcion de Filtro X");
+								leer.matrizImagen(
+										url+"pruebafinalfinal.pgm",
+										opcionMenu,opcionSubmenu);
+								break;
+							case 2:
+								System.out.println("Has seleccionado la opcion de Filtro +");
+								leer.matrizImagen(
+										"pruebafinalfinal.pgm",
+										opcionMenu,opcionSubmenu);
+								break;
+							case 3:
+								System.out.println("Has seleccionado la opcion de Filtro Pilar");
+								leer.matrizImagen(
+										url+"pruebafinalfinal.pgm",
+										opcionMenu,opcionSubmenu);
+								break;
+							case 4:
+								System.out.println("Has seleccionado la opcion de Filtro Horizontal");
+								leer.matrizImagen(
+										url+"pruebafinalfinal.pgm",
+										opcionMenu,opcionSubmenu);
+							case 5:
+								System.out.println("Has seleccionado la opcion de Filtro Esquina Inferior");
+								leer.matrizImagen(
+										url+"pruebafinalfinal.pgm",
+										opcionMenu,opcionSubmenu);
+								break;
+							case 6:
+								System.out.println("Has seleccionado la opcion de Filtro Esquina Superior");
+								leer.matrizImagen(
+										url+"pruebafinalfinal.pgm",
+										opcionMenu,opcionSubmenu);
+								break;
+							default:
+								System.out.println("Solo números entre 1 y 6");
+						}
 						break;
 					case 3:
 						System.out.println("Has seleccionado la opcion erosión secuencial");
+						menu.subOpciones();
+						opcionSubmenu = scanner.nextInt();
+						switch(opcionSubmenu){
+							case 1:
+								System.out.println("Has seleccionado la opcion de Filtro X");
+								leer.matrizImagen(
+										url+"pruebafinalfinal.pgm",
+										opcionMenu,opcionSubmenu);
+								break;
+							case 2:
+								System.out.println("Has seleccionado la opcion de Filtro +");
+								leer.matrizImagen(
+										"pruebafinalfinal.pgm",
+										opcionMenu,opcionSubmenu);
+								break;
+							case 3:
+								System.out.println("Has seleccionado la opcion de Filtro Pilar");
+								leer.matrizImagen(
+										url+"pruebafinalfinal.pgm",
+										opcionMenu,opcionSubmenu);
+								break;
+							case 4:
+								System.out.println("Has seleccionado la opcion de Filtro Horizontal");
+								leer.matrizImagen(
+										url+"pruebafinalfinal.pgm",
+										opcionMenu,opcionSubmenu);
+							case 5:
+								System.out.println("Has seleccionado la opcion de Filtro Esquina Inferior");
+								leer.matrizImagen(
+										url+"pruebafinalfinal.pgm",
+										opcionMenu,opcionSubmenu);
+								break;
+							case 6:
+								System.out.println("Has seleccionado la opcion de Filtro Esquina Superior");
+								leer.matrizImagen(
+										url+"pruebafinalfinal.pgm",
+										opcionMenu,opcionSubmenu);
+								break;
+							default:
+								System.out.println("Solo números entre 1 y 6");
+						}
 						break;
 					case 4:
 						System.out.println("Has seleccionado la opcion erosión paralela");
+						menu.subOpciones();
+						opcionSubmenu = scanner.nextInt();
+						switch(opcionSubmenu){
+							case 1:
+								System.out.println("Has seleccionado la opcion de Filtro X");
+								leer.matrizImagen(
+										url+"pruebafinalfinal.pgm",
+										opcionMenu,opcionSubmenu);
+								break;
+							case 2:
+								System.out.println("Has seleccionado la opcion de Filtro +");
+								leer.matrizImagen(
+										"pruebafinalfinal.pgm",
+										opcionMenu,opcionSubmenu);
+								break;
+							case 3:
+								System.out.println("Has seleccionado la opcion de Filtro Pilar");
+								leer.matrizImagen(
+										url+"pruebafinalfinal.pgm",
+										opcionMenu,opcionSubmenu);
+								break;
+							case 4:
+								System.out.println("Has seleccionado la opcion de Filtro Horizontal");
+								leer.matrizImagen(
+										url+"pruebafinalfinal.pgm",
+										opcionMenu,opcionSubmenu);
+							case 5:
+								System.out.println("Has seleccionado la opcion de Filtro Esquina Inferior");
+								leer.matrizImagen(
+										url+"pruebafinalfinal.pgm",
+										opcionMenu,opcionSubmenu);
+								break;
+							case 6:
+								System.out.println("Has seleccionado la opcion de Filtro Esquina Superior");
+								leer.matrizImagen(
+										url+"pruebafinalfinal.pgm",
+										opcionMenu,opcionSubmenu);
+								break;
+							default:
+								System.out.println("Solo números entre 1 y 6");
+						}
 						break;
 					case 5:
 						salir = true;
-						break;
-					default:
-						System.out.println("Solo números entre 1 y 5");
-				}
-				int filtro = scanner.nextInt();
-				switch (filtro) {
-					case 1:
-						System.out.println("Has seleccionado la opcion dilatación secuencial");
-						break;
-					case 2:
-						System.out.println("Has seleccionado la opcion dilatación paralela");
-						break;
-					case 3:
-						System.out.println("Has seleccionado la opcion erosión secuencial");
-						break;
-					case 4:
-						System.out.println("Has seleccionado la opcion erosión paralela");
-						break;
-					case 5:
-						System.out.println("Has seleccionado la opcion erosión paralela");
-						break;
-					case 6:
-						salir = true;
+						menu.dibujo();
 						break;
 					default:
 						System.out.println("Solo números entre 1 y 5");
 				}
 			} while (!salir);
-			LeerImagen leer = new LeerImagen();
-			leer.matrizImagen(
-					"C:\\Users\\felip\\Documents\\GitHub\\pruebas-de-codigo-y-algoritmos\\proyetoDistribuidos\\src\\com\\company\\pruebafinalfinal.pgm");
-			// ImageIO.write(img,"png",new File("C:/lawea.png"));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
