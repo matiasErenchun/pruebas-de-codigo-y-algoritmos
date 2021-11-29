@@ -10,7 +10,7 @@ public class Main {
 	public static void main(String[] args) throws IOException {
 		try {
 			// Recibir la url por consola y el nombre del archivo? Analizar e implementar.
-			String url = "C:\\Users\\felip\\Documents\\GitHub\\pruebas-de-codigo-y-algoritmos\\proyetoDistribuidos\\src\\com\\company\\prueba4.pgm";
+			String url = "E:\\repoGit\\pruebas-de-codigo-y-algoritmos\\proyetoDistribuidos\\src\\com\\company\\prueba7.pgm";
 			LeerImagen leer = new LeerImagen();
 			boolean salir = false;
 			Menu menu = new Menu();
