@@ -2,7 +2,8 @@ import tensorflow as tf
 import numpy as np
 import os
 import cv2
-from keras.preprocessing.image import img_to_array, ImageDataGenerator, image, load_img
+from keras.preprocessing.image import img_to_array, ImageDataGenerator, image
+import matplotlib.pyplot as plt
 
 
 def miprimera_red():
@@ -74,9 +75,10 @@ def preprocesarImagenes():
     print(lista_imagenes)
     i = 0
     num_imagenes = 0
+    plt.figure(figsize=(20, 30))
     for imagen_file in lista_imagenes:
         imagen_path = path + "\\" + imagen_file
-        imagen = cv2.imread(imagen_path, cv2.COLOR_BGR2RGB)
+        imagen = cv2.imread(imagen_path, -1)
         imagen_resize = cv2.resize(image.img_to_array(imagen), (ancho_imagen, alto_imagen),
                                    interpolation=cv2.INTER_AREA)
         x = imagen_resize / 255
@@ -85,14 +87,17 @@ def preprocesarImagenes():
         for output_batch in generadorDeDatos.flow(x, batch_size=1):
             a = image.img_to_array(output_batch[0])
             imagen_out = output_batch[0, :, :] * 255
-            imagen_final = cv2.cvtColor(imagen_out, cv2.COLOR_BGR2RGB)
+            # ojo al escribir imagenes tenemso que tener claro el formato de color actual y con cual queremos leerlo
+            # aqui dejo la documentacion:https://docs.opencv.org/3.4/d8/d01/group__imgproc__color__conversions.html
+            imagen_final = cv2.cvtColor(imagen_out, cv2.COLOR_BGR2BGRA)
             cv2.imwrite(carpeta_datos_aumentados + "\\%i%i.jpg" % (i, t), imagen_final)
-            t+=1
-            num_imagenes+=1
-            if(t>cantidad_de_imagenes):
+            t += 1
+            num_imagenes += 1
+            if (t > cantidad_de_imagenes):
                 break
-        i+=1
-    print("se crearon:%i"%num_imagenes)
+        i += 1
+    print("se crearon:%i" % num_imagenes)
+
 
 if __name__ == '__main__':
     print("hola")
