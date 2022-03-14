@@ -143,6 +143,6 @@ if __name__ == '__main__':
     #preprocesarImagenes()
     #capturarimagen()
     thread1 = camThread("Camera 1", 0)
-    thread2 = camThread("Camera 2", 1)
+    #thread2 = camThread("Camera 2", 1)
     thread1.start()
-    thread2.start()
+    #thread2.start()
